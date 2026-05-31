@@ -8,12 +8,6 @@ export const metadata: Metadata = {
   description: "Personal OS — Terminal RPG Dashboard",
 };
 
-const mainStyle = {
-  marginLeft: "200px",
-  minHeight: "100vh",
-  padding: "24px",
-} as const;
-
 export default async function RootLayout({
   children,
 }: Readonly<{
@@ -27,7 +21,12 @@ export default async function RootLayout({
     <html lang="en">
       <body>
         <Sidebar agents={agents} tasks={taskSummary} />
-        <main style={mainStyle}>{children}</main>
+        <main
+          className="scanline"
+          style={{ marginLeft: 210, minHeight: "100vh", padding: "32px 40px" }}
+        >
+          {children}
+        </main>
       </body>
     </html>
   );
