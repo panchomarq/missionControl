@@ -273,14 +273,7 @@ export function TaskBoard({
         </div>
 
         {(task.retries ?? 0) > 0 && (
-          <div
-            style={{
-              display: "flex",
-              alignItems: "center",
-              gap: 4,
-              marginBottom: 4,
-            }}
-          >
+          <div style={{ marginBottom: 6 }}>
             <span
               style={{
                 fontFamily: "var(--font-display)",
@@ -295,21 +288,18 @@ export function TaskBoard({
             >
               RETRY {task.retries}
             </span>
-            {task.lastRejectReason && (
-              <span
+            {task.retryHistory && task.retryHistory.length > 0 && (
+              <div
                 style={{
                   fontFamily: "var(--font-body)",
-                  fontSize: "var(--ft-sm)",
+                  fontSize: 12,
                   color: "var(--text-dim)",
-                  overflow: "hidden",
-                  textOverflow: "ellipsis",
-                  whiteSpace: "nowrap",
-                  flex: 1,
+                  marginTop: 4,
+                  lineHeight: "var(--lh-tight)",
                 }}
-                title={task.lastRejectReason}
               >
-                {task.lastRejectReason}
-              </span>
+                {task.retryHistory[task.retryHistory.length - 1].reason}
+              </div>
             )}
           </div>
         )}

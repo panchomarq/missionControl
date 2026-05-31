@@ -169,7 +169,14 @@
     "updatedAt": "2026-05-31T22:53:07.679711+00:00",
     "source": "roadmap",
     "retries": 1,
-    "lastRejectReason": "Rewrites Sidebar.tsx and data.ts completely, destroying existing code"
+    "retryHistory": [
+      {
+        "attempt": 1,
+        "rejectedAt": "2026-05-31T22:53:07.679711+00:00",
+        "reason": "Rewrites Sidebar.tsx and data.ts completely, destroying existing code",
+        "rejectedBy": "opus"
+      }
+    ]
   },
   {
     "id": "mc-003",
@@ -191,7 +198,14 @@
     "updatedAt": "2026-05-31T22:53:07.679711+00:00",
     "source": "roadmap",
     "retries": 1,
-    "lastRejectReason": "Rewrites page.tsx with placeholders, missing imports in RoadmapPanel"
+    "retryHistory": [
+      {
+        "attempt": 1,
+        "rejectedAt": "2026-05-31T22:53:07.679711+00:00",
+        "reason": "Rewrites page.tsx with placeholders, missing imports in RoadmapPanel",
+        "rejectedBy": "opus"
+      }
+    ]
   },
   {
     "id": "mc-005",
@@ -201,8 +215,21 @@
     "priority": "high",
     "source": "roadmap",
     "createdAt": "2026-05-31T15:00:00Z",
-    "updatedAt": "2026-05-31T22:53:07.679711+00:00",
-    "retries": 1,
-    "lastRejectReason": "Uses any[], borderRadius, emoji, 3 cols not 5, console.log handlers \u2014 existing Kanban is better"
+    "updatedAt": "2026-05-31T23:02:03.446394+00:00",
+    "retries": 2,
+    "retryHistory": [
+      {
+        "attempt": 1,
+        "rejectedAt": "2026-05-31T16:30:00Z",
+        "reason": "Uses any[], borderRadius, emoji, 3 cols not 5, console.log \u2014 existing Kanban is better",
+        "rejectedBy": "opus"
+      },
+      {
+        "attempt": 2,
+        "rejectedAt": "2026-05-31T23:02:03.446394+00:00",
+        "reason": "Still rewrites TaskBoard.tsx with inferior implementation \u2014 task already done manually",
+        "rejectedBy": "opus"
+      }
+    ]
   }
 ]

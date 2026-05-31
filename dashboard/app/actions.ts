@@ -223,7 +223,13 @@ export async function rejectAgent(formData: FormData) {
   if (task) {
     task.status = "pending";
     task.retries = (task.retries ?? 0) + 1;
-    task.lastRejectReason = reason || "Review rejected";
+    if (!task.retryHistory) task.retryHistory = [];
+    task.retryHistory.push({
+      attempt: task.retries,
+      rejectedAt: new Date().toISOString(),
+      reason: reason || "Review rejected",
+      rejectedBy: (formData.get("rejectedBy") as string) || "opus",
+    });
     task.updatedAt = new Date().toISOString();
     await writeTasks(tasks);
   }

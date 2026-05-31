@@ -33,7 +33,12 @@ export interface Task {
   priority: "high" | "medium" | "low";
   source: "manual" | "roadmap" | "scan";
   retries?: number;
-  lastRejectReason?: string;
+  retryHistory?: Array<{
+    attempt: number;
+    rejectedAt: string;
+    reason: string;
+    rejectedBy: string;
+  }>;
   createdAt: string;
   updatedAt: string;
 }
