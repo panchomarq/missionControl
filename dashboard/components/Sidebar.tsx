@@ -68,6 +68,10 @@ export function Sidebar({
     Object.fromEntries(initialTasks.map((t) => [t.id, t.title])),
   );
 
+  const hasActiveAgents = agents.some(
+    (a) => a.status === "spawning" || a.status === "active",
+  );
+
   const pollAgents = useCallback(async () => {
     try {
       const res = await fetch("/api/agents");
@@ -79,9 +83,10 @@ export function Sidebar({
   }, []);
 
   useEffect(() => {
-    const interval = setInterval(pollAgents, 3000);
+    if (!hasActiveAgents) return;
+    const interval = setInterval(pollAgents, 5000);
     return () => clearInterval(interval);
-  }, [pollAgents]);
+  }, [hasActiveAgents, pollAgents]);
 
   async function handleRescan() {
     setScanning(true);
