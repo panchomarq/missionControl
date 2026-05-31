@@ -1,1 +1,12 @@
-[]
+[
+  {
+    "id": "agent-1780243606686",
+    "taskId": "mc-004",
+    "projectId": "missionControl",
+    "agentType": "qwen",
+    "status": "completed",
+    "command": "bash toolbox/run-agent.sh mc-004",
+    "startedAt": "2026-05-31T16:06:46.685Z",
+    "completedAt": "2026-05-31T16:07:41.470260+00:00"
+  }
+]

@@ -1,7 +1,7 @@
 import type { CSSProperties } from "react";
 import { notFound } from "next/navigation";
 import Link from "next/link";
-import { getProject, getTasksByProject, getTaskPrd } from "@/lib/data";
+import { getProject, getTasksByProject, getTaskPrd, getAgents } from "@/lib/data";
 import { Panel } from "@/components/Panel";
 import { HealthIndicator } from "@/components/HealthIndicator";
 import { StatusBadge } from "@/components/StatusBadge";
@@ -89,6 +89,9 @@ export default async function ProjectPage({ params }: PageProps) {
 
   const tasks = await getTasksByProject(project.id);
   const hasGit = project.git && project.git.branch;
+
+  const allAgents = await getAgents();
+  const projectAgents = allAgents.filter((a) => a.projectId === project.id);
 
   const prdEntries = await Promise.all(
     tasks.map(async (t) => {
@@ -208,7 +211,12 @@ export default async function ProjectPage({ params }: PageProps) {
 
       <Panel title="Quests" style={{ marginBottom: "16px" }}>
         <AddTaskForm projectId={project.id} />
-        <TaskList tasks={tasks} projectPath={project.path} prds={prds} />
+        <TaskList
+          tasks={tasks}
+          agents={projectAgents}
+          projectPath={project.path}
+          prds={prds}
+        />
       </Panel>
     </>
   );

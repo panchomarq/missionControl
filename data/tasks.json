@@ -2,7 +2,7 @@
   {
     "id": "homeTui-001",
     "projectId": "homeTui",
-    "title": "Clasificar eventos: bounce (<60s) vs caída (>=60s offline)",
+    "title": "Clasificar eventos: bounce (<60s) vs ca\u00edda (>=60s offline)",
     "status": "pending",
     "priority": "high",
     "createdAt": "2026-05-31T12:00:00Z",
@@ -32,7 +32,7 @@
   {
     "id": "homeTui-004",
     "projectId": "homeTui",
-    "title": "Métricas de detalle: caídas vs bounces separados",
+    "title": "M\u00e9tricas de detalle: ca\u00eddas vs bounces separados",
     "status": "pending",
     "priority": "medium",
     "createdAt": "2026-05-31T12:00:00Z",
@@ -102,7 +102,7 @@
   {
     "id": "homeTui-011",
     "projectId": "homeTui",
-    "title": "Highlight de caídas simultáneas en timeline (problema upstream)",
+    "title": "Highlight de ca\u00eddas simult\u00e1neas en timeline (problema upstream)",
     "status": "pending",
     "priority": "medium",
     "createdAt": "2026-05-31T12:00:00Z",
@@ -163,16 +163,16 @@
     "id": "mc-002",
     "projectId": "missionControl",
     "title": "Sistema de cola visual: comandos pendientes para Qwen",
-    "status": "in-progress",
+    "status": "pending",
     "priority": "medium",
     "createdAt": "2026-05-31T12:00:00Z",
-    "updatedAt": "2026-05-31T15:54:24.109Z",
+    "updatedAt": "2026-05-31T13:00:00Z",
     "source": "roadmap"
   },
   {
     "id": "mc-003",
     "projectId": "missionControl",
-    "title": "Feedback visual del estado de ejecución de agente",
+    "title": "Feedback visual del estado de ejecuci\u00f3n de agente",
     "status": "pending",
     "priority": "medium",
     "createdAt": "2026-05-31T12:00:00Z",
@@ -183,10 +183,10 @@
     "id": "mc-004",
     "projectId": "missionControl",
     "title": "Mostrar roadmap de Obsidian en vista de proyecto",
-    "status": "pending",
+    "status": "done",
     "priority": "medium",
     "createdAt": "2026-05-31T12:00:00Z",
-    "updatedAt": "2026-05-31T12:00:00Z",
+    "updatedAt": "2026-05-31T16:07:41.486837+00:00",
     "source": "roadmap"
   }
 ]

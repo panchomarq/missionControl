@@ -4,7 +4,7 @@ import { readFile, writeFile } from "node:fs/promises";
 import { execFile } from "node:child_process";
 import { join } from "node:path";
 import { promisify } from "node:util";
-import { existsSync } from "node:fs";
+import { existsSync, mkdirSync } from "node:fs";
 import type { Task, AgentSession } from "@/lib/data";
 
 const execFileAsync = promisify(execFile);
@@ -201,5 +201,48 @@ export async function updateAgentStatus(formData: FormData) {
       task.updatedAt = new Date().toISOString();
       await writeTasks(tasks);
     }
+  }
+}
+
+export async function rejectAgent(formData: FormData) {
+  const agentId = formData.get("agentId") as string;
+  if (!agentId) return;
+
+  const agents = await readAgents();
+  const agent = agents.find((a) => a.id === agentId);
+  if (!agent) return;
+
+  const tasks = await readTasks();
+  const task = tasks.find((t) => t.id === agent.taskId);
+  if (task) {
+    task.status = "pending";
+    task.updatedAt = new Date().toISOString();
+    await writeTasks(tasks);
+  }
+
+  agent.status = "failed";
+  agent.completedAt = new Date().toISOString();
+  await writeAgents(agents);
+}
+
+export async function applyAgentFiles(formData: FormData) {
+  const taskId = formData.get("taskId") as string;
+  const filesJson = formData.get("files") as string;
+  const projectId = formData.get("projectId") as string;
+
+  if (!taskId || !filesJson || !projectId) return;
+
+  const files: Array<{ path: string; content: string }> = JSON.parse(filesJson);
+  const projectDir = join(
+    process.env.HOME ?? "/home/francisco",
+    "Documents/projects",
+    projectId,
+  );
+
+  for (const file of files) {
+    const fullPath = join(projectDir, file.path);
+    const dir = join(fullPath, "..");
+    mkdirSync(dir, { recursive: true });
+    await writeFile(fullPath, file.content + "\n");
   }
 }
