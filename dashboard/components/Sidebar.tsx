@@ -178,6 +178,9 @@ export function Sidebar({
         <Link href="/" style={linkStyle}>
           🗺 Overview
         </Link>
+        <Link href="/tasks" style={linkStyle}>
+          📋 Tasks
+        </Link>
       </div>
 
       <div style={navStyle}>

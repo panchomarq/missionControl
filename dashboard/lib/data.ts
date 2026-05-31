@@ -87,3 +87,19 @@ export async function getTaskPrd(taskId: string): Promise<string | null> {
     return null;
   }
 }
+
+export async function getAllPrds(
+  tasks: Task[],
+): Promise<Record<string, string>> {
+  const entries = await Promise.all(
+    tasks.map(async (t) => {
+      const prd = await getTaskPrd(t.id);
+      return [t.id, prd] as const;
+    }),
+  );
+  const prds: Record<string, string> = {};
+  for (const [id, prd] of entries) {
+    if (prd) prds[id] = prd;
+  }
+  return prds;
+}

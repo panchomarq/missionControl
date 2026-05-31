@@ -6,11 +6,13 @@ DATA_DIR="$(dirname "$0")/../data"
 AGENTS_FILE="$DATA_DIR/agents.json"
 TASKS_FILE="$DATA_DIR/tasks.json"
 OUTPUT_DIR="$DATA_DIR/agent-output"
+RULES_FILE="$DATA_DIR/agent-rules.md"
 MODEL="qwen2.5-coder:14b"
 OLLAMA_URL="http://localhost:11434"
 
 mkdir -p "$OUTPUT_DIR"
 
+# --- Read task ---
 task_json=$(python3 -c "
 import json, sys
 with open('$TASKS_FILE') as f:
@@ -25,6 +27,7 @@ print(json.dumps(task))
 TITLE=$(echo "$task_json" | python3 -c "import json,sys; print(json.load(sys.stdin)['title'])")
 PROJECT_ID=$(echo "$task_json" | python3 -c "import json,sys; print(json.load(sys.stdin)['projectId'])")
 
+# --- Status helpers ---
 update_agent_status() {
   local status="$1"
   python3 -c "
@@ -60,6 +63,7 @@ with open('$TASKS_FILE', 'w') as f:
 "
 }
 
+# --- Check Ollama ---
 if ! curl -s --max-time 3 "$OLLAMA_URL/api/tags" > /dev/null 2>&1; then
   echo "Starting Ollama..."
   systemctl start ollama 2>/dev/null || true
@@ -86,102 +90,159 @@ fi
 
 update_agent_status "active"
 
+# --- Build context ---
 project_dir="$HOME/Documents/projects/$PROJECT_ID"
 prd_file="$DATA_DIR/prds/$TASK_ID.md"
 
-context=""
-if [[ -f "$project_dir/CLAUDE.md" ]]; then
-  context+="=== CLAUDE.md ===
-$(head -100 "$project_dir/CLAUDE.md")
-
-"
+# Always include agent rules
+rules=""
+if [[ -f "$RULES_FILE" ]]; then
+  rules=$(cat "$RULES_FILE")
 fi
 
+# Project file tree
 file_tree=$(find "$project_dir" -maxdepth 3 \
   -not -path '*/node_modules/*' \
   -not -path '*/.next/*' \
   -not -path '*/.git/*' \
   -not -path '*/__pycache__/*' \
   -not -path '*/venv/*' \
-  -type f 2>/dev/null | head -50 | sed "s|$project_dir/||")
+  -type f 2>/dev/null | head -60 | sed "s|$project_dir/||")
 
+# Extract reference files from PRD (lines with backtick paths)
+ref_files=""
+if [[ -f "$prd_file" ]]; then
+  # Find file paths mentioned in the PRD
+  mentioned_files=$(grep -oE '`[a-zA-Z_/\[\]]+\.(tsx?|css|json|md)`' "$prd_file" 2>/dev/null \
+    | tr -d '`' | sort -u || true)
+
+  for ref in $mentioned_files; do
+    # Try exact path first, then with dashboard/ prefix
+    for candidate in \
+      "$project_dir/$ref" \
+      "$project_dir/dashboard/$ref"; do
+      if [[ -f "$candidate" ]]; then
+        content=$(head -80 "$candidate")
+        short_path=$(echo "$candidate" | sed "s|$project_dir/||")
+        ref_files+="
+=== $short_path ===
+$content
+=== END $short_path ===
+
+"
+        break
+      fi
+    done
+  done
+fi
+
+# Always include a reference component for style
+example_file="$project_dir/dashboard/components/Panel.tsx"
+if [[ -f "$example_file" ]] && [[ ! "$ref_files" == *"Panel.tsx"* ]]; then
+  ref_files+="
+=== EXAMPLE COMPONENT: components/Panel.tsx ===
+$(cat "$example_file")
+=== END EXAMPLE ===
+
+"
+fi
+
+# --- Build prompt ---
 if [[ -f "$prd_file" ]]; then
   prd_content=$(cat "$prd_file")
-  prompt="You are a coding agent. Follow the PRD below exactly.
+  prompt="$rules
+
+---
 
 $prd_content
+
+---
 
 PROJECT STRUCTURE:
 $file_tree
 
-$context
+---
 
-Output the COMPLETE content of each file you create or modify using this format:
+REFERENCE FILES (follow these patterns exactly):
+$ref_files
 
---- FILE: path/to/file ---
-(complete file content)
---- END FILE ---
+---
 
-Write production-ready code. No placeholders, no TODOs, no explanations outside the file blocks."
+RULES REMINDER:
+- Named exports ONLY (export function X), NEVER export default
+- Inline styles with CSSProperties, NEVER CSS modules
+- Import with @/ alias, NEVER relative imports
+- Use existing Panel component for bordered sections
+- NO borderRadius anywhere
+- Do NOT wrap file content in markdown code fences
+- Output ONLY the file blocks, no explanations"
 else
-  prompt="You are a coding agent working on the project '$PROJECT_ID'.
+  prompt="$rules
+
+---
 
 TASK: $TITLE
 
 PROJECT STRUCTURE:
 $file_tree
 
-PROJECT CONTEXT:
-$context
+REFERENCE FILES:
+$ref_files
 
-Instructions:
-1. Analyze the task and the project context
-2. Write the code changes needed
-3. For each file change, use this format:
+Write the code changes needed. Output each file using:
 
 --- FILE: path/to/file ---
 (complete file content)
---- END FILE ---
-
-Be precise and complete. Only modify what's needed for the task."
+--- END FILE ---"
 fi
 
 echo "Sending task to $MODEL..."
 echo "$prompt" > "$OUTPUT_DIR/$TASK_ID-prompt.txt"
 
-response=$(curl -s "$OLLAMA_URL/api/generate" \
-  --max-time 300 \
-  -d "$(python3 -c "
-import json
-print(json.dumps({
+# --- Call Ollama ---
+response=$(python3 -c "
+import json, urllib.request, sys
+
+prompt = open('$OUTPUT_DIR/$TASK_ID-prompt.txt').read()
+
+payload = json.dumps({
     'model': '$MODEL',
-    'prompt': '''$prompt''',
+    'prompt': prompt,
     'stream': False,
     'options': {
-        'temperature': 0.3,
-        'num_predict': 4096
+        'temperature': 0.2,
+        'num_predict': 8192,
+        'top_p': 0.9
     }
-}))
-")" 2>&1) || {
+}).encode()
+
+req = urllib.request.Request(
+    '$OLLAMA_URL/api/generate',
+    data=payload,
+    headers={'Content-Type': 'application/json'}
+)
+
+try:
+    with urllib.request.urlopen(req, timeout=600) as resp:
+        data = json.load(resp)
+        print(data.get('response', 'No response from model'))
+except Exception as e:
+    print(f'ERROR: {e}', file=sys.stderr)
+    sys.exit(1)
+" 2>"$OUTPUT_DIR/$TASK_ID-error.txt") || {
   echo "ERROR: Ollama API call failed"
+  cat "$OUTPUT_DIR/$TASK_ID-error.txt"
   update_agent_status "failed"
   exit 1
 }
 
-echo "$response" | python3 -c "
-import json, sys
-try:
-    resp = json.load(sys.stdin)
-    print(resp.get('response', 'No response from model'))
-except json.JSONDecodeError:
-    print('ERROR: Invalid JSON response', file=sys.stderr)
-    sys.exit(1)
-" > "$OUTPUT_DIR/$TASK_ID-response.txt" 2>&1 || {
-  echo "ERROR: Failed to parse Ollama response"
-  echo "$response" > "$OUTPUT_DIR/$TASK_ID-raw.txt"
+echo "$response" > "$OUTPUT_DIR/$TASK_ID-response.txt"
+
+if [[ -z "$response" ]] || [[ "$response" == "No response from model" ]]; then
+  echo "ERROR: Empty response from model"
   update_agent_status "failed"
   exit 1
-}
+fi
 
 update_agent_status "completed"
 update_task_status "done"
