@@ -183,10 +183,20 @@
     "id": "mc-004",
     "projectId": "missionControl",
     "title": "Mostrar roadmap de Obsidian en vista de proyecto",
-    "status": "pending",
+    "status": "done",
     "priority": "medium",
     "createdAt": "2026-05-31T12:00:00Z",
-    "updatedAt": "2026-05-31T14:00:00Z",
+    "updatedAt": "2026-05-31T16:32:20.371372+00:00",
     "source": "roadmap"
+  },
+  {
+    "id": "mc-005",
+    "projectId": "missionControl",
+    "title": "Kanban board en p\u00e1gina de Tasks",
+    "status": "pending",
+    "priority": "high",
+    "source": "roadmap",
+    "createdAt": "2026-05-31T15:00:00Z",
+    "updatedAt": "2026-05-31T15:00:00Z"
   }
 ]
