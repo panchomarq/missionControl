@@ -1,0 +1,10 @@
+node_modules/
+.next/
+.DS_Store
+*.pem
+.env*
+.vercel
+*.tsbuildinfo
+
+# Agent output (generated, can be large)
+data/agent-output/

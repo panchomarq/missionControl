@@ -1,0 +1,192 @@
+[
+  {
+    "id": "homeTui-001",
+    "projectId": "homeTui",
+    "title": "Clasificar eventos: bounce (<60s) vs caída (>=60s offline)",
+    "status": "pending",
+    "priority": "high",
+    "createdAt": "2026-05-31T12:00:00Z",
+    "updatedAt": "2026-05-31T12:00:00Z",
+    "source": "roadmap"
+  },
+  {
+    "id": "homeTui-002",
+    "projectId": "homeTui",
+    "title": "Agregar campo duration_s a device events",
+    "status": "pending",
+    "priority": "high",
+    "createdAt": "2026-05-31T12:00:00Z",
+    "updatedAt": "2026-05-31T12:00:00Z",
+    "source": "roadmap"
+  },
+  {
+    "id": "homeTui-003",
+    "projectId": "homeTui",
+    "title": "Badge de bounce en log de eventos (en vez de indicador rojo)",
+    "status": "pending",
+    "priority": "medium",
+    "createdAt": "2026-05-31T12:00:00Z",
+    "updatedAt": "2026-05-31T12:00:00Z",
+    "source": "roadmap"
+  },
+  {
+    "id": "homeTui-004",
+    "projectId": "homeTui",
+    "title": "Métricas de detalle: caídas vs bounces separados",
+    "status": "pending",
+    "priority": "medium",
+    "createdAt": "2026-05-31T12:00:00Z",
+    "updatedAt": "2026-05-31T12:00:00Z",
+    "source": "roadmap"
+  },
+  {
+    "id": "homeTui-005",
+    "projectId": "homeTui",
+    "title": "Config: bounce_threshold configurable por dispositivo",
+    "status": "pending",
+    "priority": "low",
+    "createdAt": "2026-05-31T12:00:00Z",
+    "updatedAt": "2026-05-31T12:00:00Z",
+    "source": "roadmap"
+  },
+  {
+    "id": "homeTui-006",
+    "projectId": "homeTui",
+    "title": "Modelo de datos: ventanas de tiempo (buckets 5min) con estado agregado",
+    "status": "pending",
+    "priority": "high",
+    "createdAt": "2026-05-31T12:00:00Z",
+    "updatedAt": "2026-05-31T12:00:00Z",
+    "source": "roadmap"
+  },
+  {
+    "id": "homeTui-007",
+    "projectId": "homeTui",
+    "title": "Query SQLite: generar buckets desde events (% online por bucket)",
+    "status": "pending",
+    "priority": "high",
+    "createdAt": "2026-05-31T12:00:00Z",
+    "updatedAt": "2026-05-31T12:00:00Z",
+    "source": "roadmap"
+  },
+  {
+    "id": "homeTui-008",
+    "projectId": "homeTui",
+    "title": "Widget TimelineChart: heatmap con plotext o Rich renderables",
+    "status": "pending",
+    "priority": "high",
+    "createdAt": "2026-05-31T12:00:00Z",
+    "updatedAt": "2026-05-31T12:00:00Z",
+    "source": "roadmap"
+  },
+  {
+    "id": "homeTui-009",
+    "projectId": "homeTui",
+    "title": "Escala de colores para timeline: verde/amarillo/rojo/gris",
+    "status": "pending",
+    "priority": "medium",
+    "createdAt": "2026-05-31T12:00:00Z",
+    "updatedAt": "2026-05-31T12:00:00Z",
+    "source": "roadmap"
+  },
+  {
+    "id": "homeTui-010",
+    "projectId": "homeTui",
+    "title": "Rango seleccionable en timeline: 2h/6h/24h con keybinding",
+    "status": "pending",
+    "priority": "medium",
+    "createdAt": "2026-05-31T12:00:00Z",
+    "updatedAt": "2026-05-31T12:00:00Z",
+    "source": "roadmap"
+  },
+  {
+    "id": "homeTui-011",
+    "projectId": "homeTui",
+    "title": "Highlight de caídas simultáneas en timeline (problema upstream)",
+    "status": "pending",
+    "priority": "medium",
+    "createdAt": "2026-05-31T12:00:00Z",
+    "updatedAt": "2026-05-31T12:00:00Z",
+    "source": "roadmap"
+  },
+  {
+    "id": "homeTui-012",
+    "projectId": "homeTui",
+    "title": "Panel Salud de ruta integrado en timeline",
+    "status": "pending",
+    "priority": "low",
+    "createdAt": "2026-05-31T12:00:00Z",
+    "updatedAt": "2026-05-31T12:00:00Z",
+    "source": "roadmap"
+  },
+  {
+    "id": "homeTui-013",
+    "projectId": "homeTui",
+    "title": "Agrupar dispositivos por segmento de red (Cable/WiFi)",
+    "status": "pending",
+    "priority": "medium",
+    "createdAt": "2026-05-31T12:00:00Z",
+    "updatedAt": "2026-05-31T12:00:00Z",
+    "source": "roadmap"
+  },
+  {
+    "id": "homeTui-014",
+    "projectId": "homeTui",
+    "title": "Headers de grupo colapsables con conteo de dispositivos",
+    "status": "pending",
+    "priority": "medium",
+    "createdAt": "2026-05-31T12:00:00Z",
+    "updatedAt": "2026-05-31T12:00:00Z",
+    "source": "roadmap"
+  },
+  {
+    "id": "homeTui-015",
+    "projectId": "homeTui",
+    "title": "Separador visual entre grupos en timeline",
+    "status": "pending",
+    "priority": "low",
+    "createdAt": "2026-05-31T12:00:00Z",
+    "updatedAt": "2026-05-31T12:00:00Z",
+    "source": "roadmap"
+  },
+  {
+    "id": "mc-001",
+    "projectId": "missionControl",
+    "title": "Visual de agente activo en dashboard",
+    "status": "done",
+    "priority": "high",
+    "createdAt": "2026-05-31T12:00:00Z",
+    "updatedAt": "2026-05-31T12:45:00Z",
+    "source": "roadmap"
+  },
+  {
+    "id": "mc-002",
+    "projectId": "missionControl",
+    "title": "Sistema de cola visual: comandos pendientes para Qwen",
+    "status": "in-progress",
+    "priority": "medium",
+    "createdAt": "2026-05-31T12:00:00Z",
+    "updatedAt": "2026-05-31T15:54:24.109Z",
+    "source": "roadmap"
+  },
+  {
+    "id": "mc-003",
+    "projectId": "missionControl",
+    "title": "Feedback visual del estado de ejecución de agente",
+    "status": "pending",
+    "priority": "medium",
+    "createdAt": "2026-05-31T12:00:00Z",
+    "updatedAt": "2026-05-31T12:00:00Z",
+    "source": "roadmap"
+  },
+  {
+    "id": "mc-004",
+    "projectId": "missionControl",
+    "title": "Mostrar roadmap de Obsidian en vista de proyecto",
+    "status": "pending",
+    "priority": "medium",
+    "createdAt": "2026-05-31T12:00:00Z",
+    "updatedAt": "2026-05-31T12:00:00Z",
+    "source": "roadmap"
+  }
+]

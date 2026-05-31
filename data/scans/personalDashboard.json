@@ -1,0 +1,13 @@
+{
+  "id": "personalDashboard",
+  "name": "personalDashboard",
+  "slug": "personalDashboard",
+  "path": "/home/francisco/Documents/projects/personalDashboard",
+  "description": "This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.",
+  "stack": ["Next.js","FastAPI"],
+  "status": "active",
+  "priority": "medium",
+  "git": {},
+  "health": "green",
+  "lastScanned": "2026-05-31T12:45:48-03:00"
+}

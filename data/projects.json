@@ -1,0 +1,76 @@
+[
+    {
+        "id": "carApp",
+        "name": "carApp",
+        "slug": "carApp",
+        "path": "/home/francisco/Documents/projects/carApp",
+        "description": "Vehicle fleet rental management app (Spanish UI). Manages cars, drivers, weekly assignments, payments, expenses, maintenance, and profitability reports. Deployed on Vercel with Neon Postgres.",
+        "stack": [
+            "Node.js",
+            "Next.js",
+            "Drizzle"
+        ],
+        "status": "active",
+        "priority": "medium",
+        "git": {
+            "branch": "fix/dashboard-pending-payments-responsive",
+            "hasUnpushed": false,
+            "dirtyFiles": 1,
+            "lastCommit": "2026-05-30T18:49:55-03:00",
+            "lastCommitMessage": "fix(dashboard): improve pending payments layout on small screens"
+        },
+        "health": "yellow",
+        "lastScanned": "2026-05-31T12:45:48-03:00"
+    },
+    {
+        "id": "homeTui",
+        "name": "homeTui",
+        "slug": "homeTui",
+        "path": "/home/francisco/Documents/projects/homeTui",
+        "description": "This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.",
+        "stack": [
+            "Python",
+            "Textual"
+        ],
+        "status": "active",
+        "priority": "medium",
+        "git": {
+            "branch": "feature/uplink-diagnostics",
+            "hasUnpushed": false,
+            "dirtyFiles": 1,
+            "lastCommit": "2026-05-29T22:29:49-03:00",
+            "lastCommitMessage": "Update ROADMAP: mark phases 1-6 complete, add phase 7 plan"
+        },
+        "health": "yellow",
+        "lastScanned": "2026-05-31T12:45:48-03:00"
+    },
+    {
+        "id": "missionControl",
+        "name": "missionControl",
+        "slug": "missionControl",
+        "path": "/home/francisco/Documents/projects/missionControl",
+        "description": "Sistema operativo personal con est\u00e9tica Terminal RPG. Orquestado por Opus 4.6 (estrategia, arquitectura, PRDs) y ejecutado localmente por Qwen 2.5 Coder 14B v\u00eda OpenCode (tareas de c\u00f3digo, escaneo, actualizaciones de datos).",
+        "stack": [],
+        "status": "active",
+        "priority": "medium",
+        "git": {},
+        "health": "green",
+        "lastScanned": "2026-05-31T12:45:48-03:00"
+    },
+    {
+        "id": "personalDashboard",
+        "name": "personalDashboard",
+        "slug": "personalDashboard",
+        "path": "/home/francisco/Documents/projects/personalDashboard",
+        "description": "This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.",
+        "stack": [
+            "Next.js",
+            "FastAPI"
+        ],
+        "status": "active",
+        "priority": "medium",
+        "git": {},
+        "health": "green",
+        "lastScanned": "2026-05-31T12:45:48-03:00"
+    }
+]

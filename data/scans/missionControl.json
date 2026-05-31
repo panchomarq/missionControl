@@ -1,0 +1,13 @@
+{
+  "id": "missionControl",
+  "name": "missionControl",
+  "slug": "missionControl",
+  "path": "/home/francisco/Documents/projects/missionControl",
+  "description": "Sistema operativo personal con estética Terminal RPG. Orquestado por Opus 4.6 (estrategia, arquitectura, PRDs) y ejecutado localmente por Qwen 2.5 Coder 14B vía OpenCode (tareas de código, escaneo, actualizaciones de datos).",
+  "stack": [],
+  "status": "active",
+  "priority": "medium",
+  "git": {},
+  "health": "green",
+  "lastScanned": "2026-05-31T12:45:48-03:00"
+}
