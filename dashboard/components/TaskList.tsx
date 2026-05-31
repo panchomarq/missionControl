@@ -54,7 +54,9 @@ const titleStyle: CSSProperties = {
 
 const btnStyle: CSSProperties = {
   background: "none",
-  border: "1px solid var(--border)",
+  borderWidth: "1px",
+  borderStyle: "solid",
+  borderColor: "var(--border)",
   color: "var(--text-dim)",
   padding: "3px 8px",
   fontFamily: "'Press Start 2P', monospace",
@@ -67,13 +69,16 @@ const statusTagStyle: CSSProperties = {
   fontSize: "6px",
   padding: "2px 6px",
   letterSpacing: "1px",
-  border: "1px solid",
+  borderWidth: "1px",
+  borderStyle: "solid",
 };
 
 const prdStyle: CSSProperties = {
   background: "var(--bg-dark)",
-  border: "1px solid var(--accent)",
-  borderLeft: "3px solid var(--accent)",
+  borderWidth: "1px",
+  borderStyle: "solid",
+  borderColor: "var(--accent)",
+  borderLeftWidth: "3px",
   padding: "12px",
   margin: "6px 0 6px 24px",
   maxHeight: "300px",
