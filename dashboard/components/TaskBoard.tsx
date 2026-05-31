@@ -36,6 +36,13 @@ const COLUMNS: Array<{
     pulse: true,
   },
   {
+    status: "review",
+    label: "REVIEW",
+    bullet: "◉",
+    color: "var(--agent-qwen)",
+    pulse: false,
+  },
+  {
     status: "done",
     label: "DONE",
     bullet: "●",
@@ -46,7 +53,7 @@ const COLUMNS: Array<{
 
 const boardStyle: CSSProperties = {
   display: "grid",
-  gridTemplateColumns: "1fr 1fr 1fr",
+  gridTemplateColumns: "1fr 1fr 1fr 1fr",
   gap: 16,
   alignItems: "flex-start",
 };

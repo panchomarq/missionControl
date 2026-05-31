@@ -10,18 +10,21 @@ import { AgentReview } from "@/components/AgentReview";
 const statusColors: Record<Task["status"], string> = {
   pending: "var(--text-dim)",
   "in-progress": "var(--health-yellow)",
+  review: "var(--agent-qwen)",
   done: "var(--health-green)",
 };
 
 const statusIcons: Record<Task["status"], string> = {
   pending: "○",
   "in-progress": "◐",
+  review: "◉",
   done: "●",
 };
 
 const statusLabels: Record<Task["status"], string> = {
   pending: "PENDING",
   "in-progress": "WORKING",
+  review: "REVIEW",
   done: "DONE",
 };
 
@@ -126,6 +129,7 @@ export function TaskList({
 
   const pending = tasks.filter((t) => t.status === "pending");
   const inProgress = tasks.filter((t) => t.status === "in-progress");
+  const review = tasks.filter((t) => t.status === "review");
   const done = tasks.filter((t) => t.status === "done");
 
   function getAgentForTask(taskId: string): AgentSession | undefined {
@@ -258,6 +262,12 @@ export function TaskList({
         <>
           <div style={sectionTitle}>○ Pending</div>
           {pending.map(renderTask)}
+        </>
+      )}
+      {review.length > 0 && (
+        <>
+          <div style={sectionTitle}>◉ Review</div>
+          {review.map(renderTask)}
         </>
       )}
       {done.length > 0 && (

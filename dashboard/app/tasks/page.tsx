@@ -1,5 +1,4 @@
 import type { CSSProperties } from "react";
-import Link from "next/link";
 import {
   getTasks,
   getProjects,
@@ -11,44 +10,25 @@ import { TaskBoard } from "@/components/TaskBoard";
 
 export const dynamic = "force-dynamic";
 
-const headerStyle: CSSProperties = {
-  marginBottom: "24px",
-};
-
-const titleStyle: CSSProperties = {
-  fontSize: "18px",
+const statValue: CSSProperties = {
+  fontFamily: "var(--font-display)",
+  fontSize: "var(--fs-3xl)",
   color: "var(--text-bright)",
-  marginBottom: "8px",
+  marginBottom: 8,
 };
 
-const subtitleStyle: CSSProperties = {
-  fontSize: "9px",
+const statLabel: CSSProperties = {
+  fontFamily: "var(--font-display)",
+  fontSize: "var(--fs-xs)",
   color: "var(--text-dim)",
-};
-
-const statsRow: CSSProperties = {
-  display: "flex",
-  gap: "16px",
-  marginBottom: "24px",
+  textTransform: "uppercase",
+  letterSpacing: 2,
 };
 
 const statBox: CSSProperties = {
   flex: 1,
   textAlign: "center",
-  padding: "12px",
-};
-
-const statValue: CSSProperties = {
-  fontSize: "20px",
-  color: "var(--text-bright)",
-  marginBottom: "8px",
-};
-
-const statLabel: CSSProperties = {
-  fontSize: "8px",
-  color: "var(--text-dim)",
-  textTransform: "uppercase",
-  letterSpacing: "2px",
+  padding: 12,
 };
 
 export default async function TasksPage() {
@@ -63,20 +43,34 @@ export default async function TasksPage() {
 
   const pending = tasks.filter((t) => t.status === "pending");
   const inProgress = tasks.filter((t) => t.status === "in-progress");
+  const review = tasks.filter((t) => t.status === "review");
   const done = tasks.filter((t) => t.status === "done");
-
-  const withPrd = Object.keys(prds).length;
 
   return (
     <>
-      <div style={headerStyle}>
-        <div style={titleStyle}>📋 Quest Log</div>
-        <div style={subtitleStyle}>
+      <div style={{ marginBottom: 24 }}>
+        <div
+          style={{
+            fontFamily: "var(--font-display)",
+            fontSize: "var(--fs-2xl)",
+            color: "var(--text-bright)",
+            marginBottom: 8,
+          }}
+        >
+          Quest Log
+        </div>
+        <div
+          style={{
+            fontFamily: "var(--font-body)",
+            fontSize: "var(--ft-base)",
+            color: "var(--text-dim)",
+          }}
+        >
           All tasks across {projects.length} projects
         </div>
       </div>
 
-      <div style={statsRow}>
+      <div style={{ display: "flex", gap: 16, marginBottom: 24 }}>
         <Panel style={statBox}>
           <div style={statValue}>{pending.length}</div>
           <div style={statLabel}>Pending</div>
@@ -89,19 +83,19 @@ export default async function TasksPage() {
           }}>
             {inProgress.length}
           </div>
-          <div style={statLabel}>In Progress</div>
+          <div style={statLabel}>Working</div>
+        </Panel>
+        <Panel style={statBox}>
+          <div style={{ ...statValue, color: "var(--agent-qwen)" }}>
+            {review.length}
+          </div>
+          <div style={statLabel}>Review</div>
         </Panel>
         <Panel style={statBox}>
           <div style={{ ...statValue, color: "var(--health-green)" }}>
             {done.length}
           </div>
           <div style={statLabel}>Done</div>
-        </Panel>
-        <Panel style={statBox}>
-          <div style={{ ...statValue, color: "var(--accent)" }}>
-            {withPrd}
-          </div>
-          <div style={statLabel}>With PRD</div>
         </Panel>
       </div>
 

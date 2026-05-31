@@ -202,7 +202,7 @@ export async function updateAgentStatus(formData: FormData) {
     const tasks = await readTasks();
     const task = tasks.find((t) => t.id === agent.taskId);
     if (task) {
-      task.status = "done";
+      task.status = "review";
       task.updatedAt = new Date().toISOString();
       await writeTasks(tasks);
     }
@@ -249,5 +249,13 @@ export async function applyAgentFiles(formData: FormData) {
     const dir = join(fullPath, "..");
     mkdirSync(dir, { recursive: true });
     await writeFile(fullPath, file.content + "\n");
+  }
+
+  const tasks = await readTasks();
+  const task = tasks.find((t) => t.id === taskId);
+  if (task) {
+    task.status = "done";
+    task.updatedAt = new Date().toISOString();
+    await writeTasks(tasks);
   }
 }

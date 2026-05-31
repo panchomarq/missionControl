@@ -29,7 +29,7 @@ export interface Task {
   id: string;
   projectId: string;
   title: string;
-  status: "pending" | "in-progress" | "done";
+  status: "pending" | "in-progress" | "review" | "done";
   priority: "high" | "medium" | "low";
   source: "manual" | "roadmap" | "scan";
   createdAt: string;
