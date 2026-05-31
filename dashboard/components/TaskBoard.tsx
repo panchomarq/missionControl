@@ -53,7 +53,7 @@ const COLUMNS: Array<{
 
 const boardStyle: CSSProperties = {
   display: "grid",
-  gridTemplateColumns: "1fr 1fr 1fr 1fr",
+  gridTemplateColumns: "repeat(4, minmax(0, 1fr))",
   gap: 16,
   alignItems: "flex-start",
 };
@@ -65,8 +65,10 @@ const columnStyle: CSSProperties = {
   borderColor: "var(--border)",
   padding: 12,
   minHeight: 300,
+  maxHeight: "calc(100vh - 240px)",
   display: "flex",
   flexDirection: "column",
+  overflow: "hidden",
 };
 
 const columnHeaderStyle: CSSProperties = {
@@ -448,7 +450,7 @@ export function TaskBoard({
                 </span>
               </div>
 
-              <div style={{ flex: 1, overflowY: "auto" }}>
+              <div style={{ flex: 1, overflowY: "auto", minHeight: 0 }}>
                 {colTasks.length === 0 && (
                   <div
                     style={{
