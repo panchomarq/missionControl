@@ -239,6 +239,19 @@ export async function rejectAgent(formData: FormData) {
   await writeAgents(agents);
 }
 
+export async function approveTask(formData: FormData) {
+  const taskId = formData.get("taskId") as string;
+  if (!taskId) return;
+
+  const tasks = await readTasks();
+  const task = tasks.find((t) => t.id === taskId);
+  if (!task) return;
+
+  task.status = "done";
+  task.updatedAt = new Date().toISOString();
+  await writeTasks(tasks);
+}
+
 export async function applyAgentFiles(formData: FormData) {
   const taskId = formData.get("taskId") as string;
   const filesJson = formData.get("files") as string;

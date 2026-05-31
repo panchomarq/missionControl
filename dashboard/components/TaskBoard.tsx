@@ -5,7 +5,7 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import type { Task, AgentSession } from "@/lib/data";
 import { Icon } from "@/components/Icon";
-import { startTask } from "@/app/actions";
+import { startTask, approveTask } from "@/app/actions";
 import { AgentReview } from "@/components/AgentReview";
 
 const priorityColors: Record<Task["priority"], string> = {
@@ -213,6 +213,13 @@ export function TaskBoard({
       )[0];
   }
 
+  async function handleApprove(task: Task) {
+    const formData = new FormData();
+    formData.set("taskId", task.id);
+    await approveTask(formData);
+    router.refresh();
+  }
+
   async function handleStart(task: Task) {
     const formData = new FormData();
     formData.set("taskId", task.id);
@@ -350,6 +357,18 @@ export function TaskBoard({
               onClick={() => handleStart(task)}
             >
               <Icon name="play" size={9} /> START
+            </button>
+          )}
+          {task.status === "ask-human" && (
+            <button
+              style={{
+                ...btnStyle,
+                borderColor: "var(--health-green)",
+                color: "var(--health-green)",
+              }}
+              onClick={() => handleApprove(task)}
+            >
+              <Icon name="check" size={9} /> APPROVE
             </button>
           )}
         </div>
