@@ -1,10 +1,11 @@
 "use client";
 
 import { useState, type CSSProperties } from "react";
-import type { Task } from "@/lib/data";
-import { updateTaskStatus, startTask } from "@/app/actions";
+import type { Task, AgentSession } from "@/lib/data";
+import { startTask } from "@/app/actions";
 import { useRouter } from "next/navigation";
 import { QwenCommand } from "@/components/QwenCommand";
+import { AgentReview } from "@/components/AgentReview";
 
 const statusColors: Record<Task["status"], string> = {
   pending: "var(--text-dim)",
@@ -18,16 +19,10 @@ const statusIcons: Record<Task["status"], string> = {
   done: "●",
 };
 
-const nextStatus: Record<Task["status"], Task["status"] | null> = {
-  pending: "in-progress",
-  "in-progress": "done",
-  done: null,
-};
-
-const nextLabel: Record<Task["status"], string> = {
-  pending: "Start",
-  "in-progress": "Complete",
-  done: "",
+const statusLabels: Record<Task["status"], string> = {
+  pending: "PENDING",
+  "in-progress": "WORKING",
+  done: "DONE",
 };
 
 const priorityColors: Record<Task["priority"], string> = {
@@ -68,6 +63,13 @@ const btnStyle: CSSProperties = {
   letterSpacing: "1px",
 };
 
+const statusTagStyle: CSSProperties = {
+  fontSize: "6px",
+  padding: "2px 6px",
+  letterSpacing: "1px",
+  border: "1px solid",
+};
+
 const prdStyle: CSSProperties = {
   background: "var(--bg-dark)",
   border: "1px solid var(--accent)",
@@ -98,13 +100,20 @@ const sectionTitle: CSSProperties = {
 
 interface TaskListProps {
   tasks: Task[];
+  agents: AgentSession[];
   projectPath?: string;
   prds?: Record<string, string>;
 }
 
-export function TaskList({ tasks, projectPath, prds = {} }: TaskListProps) {
+export function TaskList({
+  tasks,
+  agents,
+  projectPath,
+  prds = {},
+}: TaskListProps) {
   const router = useRouter();
   const [expandedPrd, setExpandedPrd] = useState<string | null>(null);
+  const [reviewTaskId, setReviewTaskId] = useState<string | null>(null);
 
   if (tasks.length === 0) {
     return <div style={emptyStyle}>No quests yet. Add one above.</div>;
@@ -114,6 +123,14 @@ export function TaskList({ tasks, projectPath, prds = {} }: TaskListProps) {
   const inProgress = tasks.filter((t) => t.status === "in-progress");
   const done = tasks.filter((t) => t.status === "done");
 
+  function getAgentForTask(taskId: string): AgentSession | undefined {
+    return agents
+      .filter((a) => a.taskId === taskId)
+      .sort((a, b) =>
+        new Date(b.startedAt).getTime() - new Date(a.startedAt).getTime(),
+      )[0];
+  }
+
   async function handleStart(task: Task) {
     const formData = new FormData();
     formData.set("taskId", task.id);
@@ -122,27 +139,17 @@ export function TaskList({ tasks, projectPath, prds = {} }: TaskListProps) {
     router.refresh();
   }
 
-  async function handleStatusChange(taskId: string, status: Task["status"]) {
-    const formData = new FormData();
-    formData.set("taskId", taskId);
-    formData.set("status", status);
-    await updateTaskStatus(formData);
-    router.refresh();
-  }
-
   function renderTask(task: Task) {
-    const next = nextStatus[task.status];
     const prd = prds[task.id];
     const showPrd = expandedPrd === task.id;
+    const color = statusColors[task.status];
+    const agent = getAgentForTask(task.id);
+    const hasReviewableOutput = agent?.status === "completed";
 
     return (
       <div key={task.id}>
         <div style={rowStyle}>
-          <span style={{
-            color: statusColors[task.status],
-            fontSize: "12px",
-            minWidth: "14px",
-          }}>
+          <span style={{ color, fontSize: "12px", minWidth: "14px" }}>
             {statusIcons[task.status]}
           </span>
           <span style={{
@@ -161,6 +168,16 @@ export function TaskList({ tasks, projectPath, prds = {} }: TaskListProps) {
           }}>
             {task.priority.toUpperCase()}
           </span>
+          <span style={{
+            ...statusTagStyle,
+            color,
+            borderColor: color,
+            animation: task.status === "in-progress"
+              ? "pulse 1.5s infinite"
+              : "none",
+          }}>
+            {statusLabels[task.status]}
+          </span>
           {prd && (
             <button
               style={{
@@ -170,6 +187,18 @@ export function TaskList({ tasks, projectPath, prds = {} }: TaskListProps) {
               onClick={() => setExpandedPrd(showPrd ? null : task.id)}
             >
               📋 PRD
+            </button>
+          )}
+          {hasReviewableOutput && (
+            <button
+              style={{
+                ...btnStyle,
+                borderColor: "#22d3ee",
+                color: "#22d3ee",
+              }}
+              onClick={() => setReviewTaskId(task.id)}
+            >
+              📄 Review
             </button>
           )}
           {task.status === "pending" && (
@@ -182,14 +211,6 @@ export function TaskList({ tasks, projectPath, prds = {} }: TaskListProps) {
               onClick={() => handleStart(task)}
             >
               ▸ Start
-            </button>
-          )}
-          {task.status === "in-progress" && next && (
-            <button
-              style={btnStyle}
-              onClick={() => handleStatusChange(task.id, next)}
-            >
-              ▸ Complete
             </button>
           )}
         </div>
@@ -205,8 +226,23 @@ export function TaskList({ tasks, projectPath, prds = {} }: TaskListProps) {
     );
   }
 
+  const reviewAgent = reviewTaskId ? getAgentForTask(reviewTaskId) : undefined;
+  const reviewTask = reviewTaskId
+    ? tasks.find((t) => t.id === reviewTaskId)
+    : undefined;
+
   return (
     <>
+      {reviewTaskId && reviewAgent && reviewTask && (
+        <AgentReview
+          taskId={reviewTaskId}
+          agentId={reviewAgent.id}
+          projectId={reviewTask.projectId}
+          taskTitle={reviewTask.title}
+          onClose={() => setReviewTaskId(null)}
+        />
+      )}
+
       {inProgress.length > 0 && (
         <>
           <div style={sectionTitle}>⚔ In Progress</div>
