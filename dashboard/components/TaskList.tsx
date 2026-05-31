@@ -11,6 +11,7 @@ const statusColors: Record<Task["status"], string> = {
   pending: "var(--text-dim)",
   "in-progress": "var(--health-yellow)",
   review: "var(--agent-qwen)",
+  "ask-human": "var(--accent)",
   done: "var(--health-green)",
 };
 
@@ -18,6 +19,7 @@ const statusIcons: Record<Task["status"], string> = {
   pending: "○",
   "in-progress": "◐",
   review: "◉",
+  "ask-human": "✋",
   done: "●",
 };
 
@@ -25,6 +27,7 @@ const statusLabels: Record<Task["status"], string> = {
   pending: "PENDING",
   "in-progress": "WORKING",
   review: "REVIEW",
+  "ask-human": "ASK HUMAN",
   done: "DONE",
 };
 

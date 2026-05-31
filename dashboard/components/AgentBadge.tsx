@@ -1,6 +1,6 @@
 "use client";
 
-import type { CSSProperties } from "react";
+import { useState, useEffect, type CSSProperties } from "react";
 import type { AgentSession } from "@/lib/data";
 
 const badgeStyle: CSSProperties = {
@@ -9,7 +9,9 @@ const badgeStyle: CSSProperties = {
   gap: "6px",
   padding: "6px 8px",
   background: "var(--bg-dark)",
-  border: "1px solid var(--border)",
+  borderWidth: "1px",
+  borderStyle: "solid",
+  borderColor: "var(--border)",
   fontSize: "7px",
   letterSpacing: "1px",
 };
@@ -42,6 +44,22 @@ export function AgentBadge({ agent }: AgentBadgeProps) {
   const isActive =
     agent.status === "spawning" || agent.status === "active";
 
+  const [elapsed, setElapsed] = useState("");
+
+  useEffect(() => {
+    if (!isActive) return;
+    function update() {
+      const seconds = Math.floor(
+        (Date.now() - new Date(agent.startedAt).getTime()) / 1000,
+      );
+      if (seconds < 60) setElapsed(`${seconds}s`);
+      else setElapsed(`${Math.floor(seconds / 60)}m ${seconds % 60}s`);
+    }
+    update();
+    const id = setInterval(update, 1000);
+    return () => clearInterval(id);
+  }, [isActive, agent.startedAt]);
+
   return (
     <div style={badgeStyle}>
       <span
@@ -57,13 +75,30 @@ export function AgentBadge({ agent }: AgentBadgeProps) {
       </span>
       <span
         style={{
-          color: isActive ? color : "var(--text-dim)",
+          color: isActive
+            ? color
+            : agent.status === "completed"
+              ? "var(--health-green)"
+              : agent.status === "failed"
+                ? "var(--health-red)"
+                : "var(--text-dim)",
           animation:
             agent.status === "spawning" ? "blink 0.8s infinite" : "none",
         }}
       >
         {statusLabels[agent.status]}
       </span>
+      {isActive && elapsed && (
+        <span
+          style={{
+            color: "var(--text-dim)",
+            fontFamily: "var(--font-body)",
+            fontSize: "var(--ft-sm)",
+          }}
+        >
+          · {elapsed}
+        </span>
+      )}
     </div>
   );
 }

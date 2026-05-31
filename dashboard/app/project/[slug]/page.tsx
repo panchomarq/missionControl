@@ -1,7 +1,8 @@
 import type { CSSProperties } from "react";
 import { notFound } from "next/navigation";
 import Link from "next/link";
-import { getProject, getTasksByProject, getTaskPrd, getAgents } from "@/lib/data";
+import { getProject, getTasksByProject, getTaskPrd, getAgents, getObsidianRoadmap } from "@/lib/data";
+import { RoadmapPanel } from "@/components/RoadmapPanel";
 import { Panel } from "@/components/Panel";
 import { HealthIndicator } from "@/components/HealthIndicator";
 import { StatusBadge } from "@/components/StatusBadge";
@@ -91,6 +92,7 @@ export default async function ProjectPage({ params }: PageProps) {
   const hasGit = project.git && project.git.branch;
 
   const allAgents = await getAgents();
+  const roadmap = await getObsidianRoadmap(slug);
   const projectAgents = allAgents.filter((a) => a.projectId === project.id);
 
   const prdEntries = await Promise.all(
@@ -208,6 +210,8 @@ export default async function ProjectPage({ params }: PageProps) {
           </div>
         </Panel>
       </div>
+
+      {roadmap && <RoadmapPanel roadmap={roadmap} />}
 
       <Panel title="Quests" style={{ marginBottom: "16px" }}>
         <AddTaskForm projectId={project.id} />

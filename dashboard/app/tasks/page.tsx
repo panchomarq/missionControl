@@ -44,6 +44,7 @@ export default async function TasksPage() {
   const pending = tasks.filter((t) => t.status === "pending");
   const inProgress = tasks.filter((t) => t.status === "in-progress");
   const review = tasks.filter((t) => t.status === "review");
+  const askHuman = tasks.filter((t) => t.status === "ask-human");
   const done = tasks.filter((t) => t.status === "done");
 
   return (
@@ -90,6 +91,12 @@ export default async function TasksPage() {
             {review.length}
           </div>
           <div style={statLabel}>Review</div>
+        </Panel>
+        <Panel style={statBox}>
+          <div style={{ ...statValue, color: "var(--accent)" }}>
+            {askHuman.length}
+          </div>
+          <div style={statLabel}>Ask Human</div>
         </Panel>
         <Panel style={statBox}>
           <div style={{ ...statValue, color: "var(--health-green)" }}>

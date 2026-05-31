@@ -43,6 +43,13 @@ const COLUMNS: Array<{
     pulse: false,
   },
   {
+    status: "ask-human",
+    label: "ASK HUMAN",
+    bullet: "✋",
+    color: "var(--accent)",
+    pulse: false,
+  },
+  {
     status: "done",
     label: "DONE",
     bullet: "●",
@@ -53,7 +60,7 @@ const COLUMNS: Array<{
 
 const boardStyle: CSSProperties = {
   display: "grid",
-  gridTemplateColumns: "repeat(4, minmax(0, 1fr))",
+  gridTemplateColumns: "repeat(5, minmax(0, 1fr))",
   gap: 16,
   alignItems: "flex-start",
 };
