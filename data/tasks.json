@@ -183,10 +183,10 @@
     "id": "mc-004",
     "projectId": "missionControl",
     "title": "Mostrar roadmap de Obsidian en vista de proyecto",
-    "status": "done",
+    "status": "pending",
     "priority": "medium",
     "createdAt": "2026-05-31T12:00:00Z",
-    "updatedAt": "2026-05-31T16:07:41.486837+00:00",
+    "updatedAt": "2026-05-31T14:00:00Z",
     "source": "roadmap"
   }
 ]

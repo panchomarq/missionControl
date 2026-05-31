@@ -37,26 +37,20 @@ interface ParsedFile {
 
 function parseFileBlocks(text: string): ParsedFile[] {
   const files: ParsedFile[] = [];
-  const regex = /--- FILE: (.+?) ---\n```?\w*\n?([\s\S]*?)```?\n--- END FILE ---/g;
+
+  const simpleRegex = /--- FILE: (.+?) ---\n([\s\S]*?)--- END FILE ---/g;
   let match;
 
-  while ((match = regex.exec(text)) !== null) {
+  while ((match = simpleRegex.exec(text)) !== null) {
+    let content = match[2].trim();
+    content = content
+      .replace(/^```\w*\n?/, "")
+      .replace(/\n?```\s*$/, "")
+      .trim();
     files.push({
       path: match[1].trim(),
-      content: match[2].trim(),
+      content,
     });
-  }
-
-  if (files.length === 0) {
-    const simpleRegex = /--- FILE: (.+?) ---\n([\s\S]*?)--- END FILE ---/g;
-    while ((match = simpleRegex.exec(text)) !== null) {
-      let content = match[2].trim();
-      content = content.replace(/^```\w*\n?/, "").replace(/\n?```$/, "");
-      files.push({
-        path: match[1].trim(),
-        content: content.trim(),
-      });
-    }
   }
 
   return files;
