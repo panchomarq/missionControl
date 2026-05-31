@@ -1,17 +1,12 @@
 import type { CSSProperties } from "react";
+import { Icon } from "@/components/Icon";
 
 type Status = "active" | "paused" | "archived";
 
-const colors: Record<Status, string> = {
-  active: "var(--health-green)",
-  paused: "var(--health-yellow)",
-  archived: "var(--text-dim)",
-};
-
-const icons: Record<Status, string> = {
-  active: "▶",
-  paused: "║",
-  archived: "■",
+const STATUS_MAP: Record<Status, { color: string; icon: string }> = {
+  active: { color: "var(--health-green)", icon: "play" },
+  paused: { color: "var(--health-yellow)", icon: "power" },
+  archived: { color: "var(--text-dim)", icon: "folder" },
 };
 
 interface StatusBadgeProps {
@@ -19,21 +14,27 @@ interface StatusBadgeProps {
 }
 
 export function StatusBadge({ status }: StatusBadgeProps) {
+  const { color, icon } = STATUS_MAP[status];
+
   const style: CSSProperties = {
     display: "inline-flex",
     alignItems: "center",
-    gap: "4px",
-    fontSize: "8px",
-    color: colors[status],
-    border: `1px solid ${colors[status]}`,
-    padding: "2px 6px",
+    gap: 5,
+    fontFamily: "var(--font-display)",
+    fontSize: "var(--fs-xs)",
+    color,
+    borderWidth: 1,
+    borderStyle: "solid",
+    borderColor: color,
+    padding: "3px 7px",
     textTransform: "uppercase",
-    letterSpacing: "1px",
+    letterSpacing: 1,
   };
 
   return (
     <span style={style}>
-      {icons[status]} {status}
+      <Icon name={icon} size={10} />
+      {status}
     </span>
   );
 }

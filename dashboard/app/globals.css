@@ -1,20 +1,71 @@
-@import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Pixelify+Sans:wght@400;500;600;700&display=swap');
 
 :root {
-  --bg-dark: #0a0a12;
-  --bg-panel: #12121e;
-  --bg-panel-hover: #1a1a2e;
-  --border: #2a2a3e;
-  --border-highlight: #4a4a6e;
-  --text: #c8c8d4;
-  --text-dim: #6a6a7e;
-  --text-bright: #e8e8f0;
-  --accent: #5b8dd9;
+  /* Surfaces — warm charcoal-plum */
+  --bg-dark: #1a1620;
+  --bg-panel: #251f2e;
+  --bg-panel-hover: #332a3d;
+
+  /* Borders — warm, square, never rounded */
+  --border: #443a52;
+  --border-highlight: #7a6a8e;
+
+  /* Text — warm light greys */
+  --text: #e9e3ee;
+  --text-dim: #ab9fb6;
+  --text-bright: #f7f3fa;
+
+  /* Accent — warm amber CRT */
+  --accent: #f0a847;
+
+  /* Health / status traffic light */
   --health-green: #4ade80;
   --health-yellow: #facc15;
   --health-red: #f87171;
+
+  /* RPG flavor */
   --gold: #fbbf24;
   --xp-bar: #818cf8;
+
+  /* Agent identity */
+  --agent-qwen: #22d3ee;
+  --agent-opus: #a78bfa;
+  --agent-claude: #fb923c;
+
+  /* Fonts — dual system */
+  --font-display: 'Press Start 2P', 'Courier New', monospace;
+  --font-body: 'Pixelify Sans', 'Courier New', monospace;
+
+  /* Display sizes (Press Start 2P) */
+  --fs-micro: 6px;
+  --fs-tiny: 7px;
+  --fs-xs: 8px;
+  --fs-sm: 9px;
+  --fs-md: 11px;
+  --fs-xl: 14px;
+  --fs-2xl: 18px;
+  --fs-3xl: 20px;
+
+  /* Body sizes (Pixelify Sans) */
+  --ft-sm: 14px;
+  --ft-base: 16px;
+  --ft-lg: 17px;
+
+  /* Line heights */
+  --lh-tight: 1.35;
+  --lh-body: 1.5;
+  --lh-loose: 1.65;
+  --lh-display: 2;
+
+  /* Spacing — 4px grid */
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-6: 24px;
+
+  /* Glow */
+  --glow-accent: 0 0 14px rgba(240, 168, 71, 0.22);
 }
 
 * {
@@ -27,10 +78,9 @@ html, body {
   height: 100%;
   background-color: var(--bg-dark);
   color: var(--text);
-  font-family: 'Press Start 2P', monospace;
-  font-size: 12px;
-  line-height: 2;
-  image-rendering: pixelated;
+  font-family: var(--font-body);
+  font-size: var(--ft-base);
+  line-height: var(--lh-body);
 }
 
 a {
@@ -44,7 +94,7 @@ a {
 }
 
 ::-webkit-scrollbar {
-  width: 6px;
+  width: 8px;
 }
 
 ::-webkit-scrollbar-track {
@@ -79,6 +129,11 @@ a {
   animation: fadeIn 0.3s ease-out both;
 }
 
+.scanline {
+  position: relative;
+  overflow: hidden;
+}
+
 .scanline::after {
   content: "";
   position: absolute;
@@ -91,7 +146,7 @@ a {
     var(--accent),
     transparent
   );
-  opacity: 0.08;
+  opacity: 0.06;
   animation: scanline 8s linear infinite;
   pointer-events: none;
 }

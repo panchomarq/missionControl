@@ -5,47 +5,33 @@ import { useState, useEffect, useCallback, type CSSProperties } from "react";
 import { useRouter } from "next/navigation";
 import { rescanProjects } from "@/app/actions";
 import type { AgentSession } from "@/lib/data";
+import { Icon } from "@/components/Icon";
 import { AgentBadge } from "@/components/AgentBadge";
 
 const sidebarStyle: CSSProperties = {
-  width: "200px",
+  width: 210,
   minHeight: "100vh",
   background: "var(--bg-panel)",
   borderRight: "2px solid var(--border)",
   padding: "16px 12px",
   display: "flex",
   flexDirection: "column",
-  gap: "24px",
+  gap: 22,
   position: "fixed",
   top: 0,
   left: 0,
   overflow: "auto",
 };
 
-const logoStyle: CSSProperties = {
-  fontSize: "11px",
-  color: "var(--accent)",
-  textAlign: "center",
-  padding: "12px 0",
-  borderBottom: "1px solid var(--border)",
-  letterSpacing: "1px",
-  lineHeight: "2.2",
-};
-
-const navStyle: CSSProperties = {
-  display: "flex",
-  flexDirection: "column",
-  gap: "4px",
-};
-
 const linkStyle: CSSProperties = {
-  fontSize: "10px",
-  padding: "10px 8px",
+  fontFamily: "var(--font-body)",
+  fontSize: "var(--ft-lg)",
+  padding: "8px 8px",
   color: "var(--text)",
   display: "flex",
   alignItems: "center",
-  gap: "8px",
-  transition: "background 0.1s",
+  gap: 9,
+  cursor: "pointer",
   textDecoration: "none",
 };
 
@@ -53,54 +39,17 @@ const btnStyle: CSSProperties = {
   ...linkStyle,
   background: "none",
   border: "none",
-  cursor: "pointer",
-  fontFamily: "'Press Start 2P', monospace",
   width: "100%",
   textAlign: "left",
 };
 
 const sectionLabel: CSSProperties = {
-  fontSize: "8px",
+  fontFamily: "var(--font-display)",
+  fontSize: "var(--fs-xs)",
   color: "var(--text-dim)",
   textTransform: "uppercase",
-  letterSpacing: "2px",
+  letterSpacing: 2,
   padding: "4px 8px",
-};
-
-const versionStyle: CSSProperties = {
-  marginTop: "auto",
-  fontSize: "6px",
-  color: "var(--text-dim)",
-  textAlign: "center",
-  padding: "8px",
-  borderTop: "1px solid var(--border)",
-};
-
-const agentItemStyle: CSSProperties = {
-  padding: "4px 8px",
-};
-
-const taskLabelStyle: CSSProperties = {
-  fontSize: "6px",
-  color: "var(--text-dim)",
-  padding: "0 8px 6px",
-  lineHeight: "1.8",
-  overflow: "hidden",
-  textOverflow: "ellipsis",
-  whiteSpace: "nowrap",
-};
-
-const emptyStyle: CSSProperties = {
-  fontSize: "7px",
-  color: "var(--text-dim)",
-  padding: "6px 8px",
-  fontStyle: "italic",
-};
-
-const timeStyle: CSSProperties = {
-  fontSize: "5px",
-  color: "var(--text-dim)",
-  padding: "0 8px 2px",
 };
 
 interface SidebarProps {
@@ -126,18 +75,8 @@ export function Sidebar({
       const data = await res.json();
       setAgents(data.agents);
       setTaskMap(data.taskMap);
-
-      const hasActive = data.agents.some(
-        (a: AgentSession) =>
-          a.status === "spawning" || a.status === "active",
-      );
-      if (!hasActive && initialAgents.some(
-        (a) => a.status === "spawning" || a.status === "active",
-      )) {
-        router.refresh();
-      }
     } catch { /* ignore */ }
-  }, [initialAgents, router]);
+  }, []);
 
   useEffect(() => {
     const interval = setInterval(pollAgents, 3000);
@@ -159,31 +98,39 @@ export function Sidebar({
     .slice(-3)
     .reverse();
 
-  function formatElapsed(startedAt: string): string {
-    const seconds = Math.floor(
-      (Date.now() - new Date(startedAt).getTime()) / 1000,
-    );
-    if (seconds < 60) return `${seconds}s`;
-    return `${Math.floor(seconds / 60)}m ${seconds % 60}s`;
-  }
-
   return (
     <nav style={sidebarStyle}>
-      <div style={logoStyle}>
-        ⚔ MISSION<br />CONTROL
+      <div
+        style={{
+          fontFamily: "var(--font-display)",
+          fontSize: "var(--fs-md)",
+          color: "var(--accent)",
+          textAlign: "center",
+          padding: "10px 0 14px",
+          borderBottom: "1px solid var(--border)",
+          letterSpacing: 1,
+          lineHeight: 2,
+          display: "flex",
+          flexDirection: "column",
+          alignItems: "center",
+          gap: 8,
+        }}
+      >
+        <Icon name="flag" size={22} />
+        MISSION<br />CONTROL
       </div>
 
-      <div style={navStyle}>
+      <div style={{ display: "flex", flexDirection: "column", gap: 2 }}>
         <div style={sectionLabel}>Navigation</div>
         <Link href="/" style={linkStyle}>
-          🗺 Overview
+          <Icon name="home" size={15} /> Overview
         </Link>
         <Link href="/tasks" style={linkStyle}>
-          📋 Tasks
+          <Icon name="clipboard" size={15} /> Tasks
         </Link>
       </div>
 
-      <div style={navStyle}>
+      <div style={{ display: "flex", flexDirection: "column", gap: 2 }}>
         <div style={sectionLabel}>System</div>
         <button
           style={{
@@ -194,42 +141,68 @@ export function Sidebar({
           onClick={handleRescan}
           disabled={scanning}
         >
-          {scanning ? "⏳ Scanning..." : "🔄 Rescan"}
+          <Icon name="reload" size={15} />
+          {scanning ? "Scanning…" : "Rescan"}
         </button>
       </div>
 
-      <div style={navStyle}>
+      <div style={{ display: "flex", flexDirection: "column", gap: 6 }}>
         <div style={sectionLabel}>
           Agents {active.length > 0 && `(${active.length})`}
         </div>
 
         {active.length === 0 && recent.length === 0 && (
-          <div style={emptyStyle}>No agents deployed</div>
+          <div
+            style={{
+              fontFamily: "var(--font-body)",
+              fontSize: 15,
+              color: "var(--text-dim)",
+              padding: "4px 8px",
+              fontStyle: "italic",
+            }}
+          >
+            No agents deployed
+          </div>
         )}
 
         {active.map((agent) => (
-          <div key={agent.id} style={agentItemStyle}>
+          <div key={agent.id}>
             <AgentBadge agent={agent} />
-            <div style={taskLabelStyle}>
+            <div
+              style={{
+                fontFamily: "var(--font-body)",
+                fontSize: "var(--ft-sm)",
+                color: "var(--text-dim)",
+                padding: "2px 8px 4px",
+                lineHeight: "var(--lh-tight)",
+                overflow: "hidden",
+                textOverflow: "ellipsis",
+                whiteSpace: "nowrap",
+              }}
+            >
               {taskMap[agent.taskId] ?? agent.taskId}
-            </div>
-            <div style={timeStyle}>
-              ⏱ {formatElapsed(agent.startedAt)}
             </div>
           </div>
         ))}
 
         {recent.map((agent) => (
-          <div key={agent.id} style={{ ...agentItemStyle, opacity: 0.5 }}>
+          <div key={agent.id} style={{ opacity: 0.5 }}>
             <AgentBadge agent={agent} />
-            <div style={taskLabelStyle}>
-              {taskMap[agent.taskId] ?? agent.taskId}
-            </div>
           </div>
         ))}
       </div>
 
-      <div style={versionStyle}>
+      <div
+        style={{
+          marginTop: "auto",
+          fontFamily: "var(--font-display)",
+          fontSize: "var(--fs-micro)",
+          color: "var(--text-dim)",
+          textAlign: "center",
+          padding: 8,
+          borderTop: "1px solid var(--border)",
+        }}
+      >
         v0.2.0
       </div>
     </nav>

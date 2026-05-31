@@ -9,17 +9,20 @@ interface PanelProps {
 
 const panelStyle: CSSProperties = {
   background: "var(--bg-panel)",
-  border: "2px solid var(--border)",
-  padding: "16px",
+  borderWidth: "2px",
+  borderStyle: "solid",
+  borderColor: "var(--border)",
+  padding: 18,
 };
 
 const titleStyle: CSSProperties = {
+  fontFamily: "var(--font-display)",
   color: "var(--accent)",
-  fontSize: "9px",
-  letterSpacing: "2px",
+  fontSize: "var(--fs-sm)",
+  letterSpacing: 2,
   textTransform: "uppercase",
-  marginBottom: "12px",
-  paddingBottom: "8px",
+  marginBottom: 12,
+  paddingBottom: 8,
   borderBottom: "1px solid var(--border)",
 };
 

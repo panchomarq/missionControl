@@ -3,57 +3,31 @@ import { getProjects, getActiveAgents, getTasks } from "@/lib/data";
 import { ProjectCard } from "@/components/ProjectCard";
 import { Panel } from "@/components/Panel";
 
-const headerStyle: CSSProperties = {
-  marginBottom: "24px",
-};
+export const dynamic = "force-dynamic";
 
-const titleStyle: CSSProperties = {
-  fontSize: "18px",
+const statValue: CSSProperties = {
+  fontFamily: "var(--font-display)",
+  fontSize: "var(--fs-3xl)",
   color: "var(--text-bright)",
-  marginBottom: "8px",
+  marginBottom: 8,
 };
 
-const subtitleStyle: CSSProperties = {
-  fontSize: "9px",
+const statLabel: CSSProperties = {
+  fontFamily: "var(--font-display)",
+  fontSize: "var(--fs-xs)",
   color: "var(--text-dim)",
-};
-
-const gridStyle: CSSProperties = {
-  display: "grid",
-  gridTemplateColumns: "repeat(auto-fill, minmax(320px, 1fr))",
-  gap: "16px",
-};
-
-const statsRow: CSSProperties = {
-  display: "flex",
-  gap: "16px",
-  marginBottom: "24px",
+  textTransform: "uppercase",
+  letterSpacing: 2,
 };
 
 const statBox: CSSProperties = {
   flex: 1,
   textAlign: "center",
-  padding: "12px",
+  padding: 18,
 };
-
-const statValue: CSSProperties = {
-  fontSize: "20px",
-  color: "var(--text-bright)",
-  marginBottom: "8px",
-};
-
-const statLabel: CSSProperties = {
-  fontSize: "8px",
-  color: "var(--text-dim)",
-  textTransform: "uppercase",
-  letterSpacing: "2px",
-};
-
-export const dynamic = "force-dynamic";
 
 export default async function Home() {
   const projects = await getProjects();
-
   const activeAgents = await getActiveAgents();
   const allTasks = await getTasks();
   const pendingTasks = allTasks.filter((t) => t.status === "pending").length;
@@ -64,9 +38,24 @@ export default async function Home() {
 
   return (
     <>
-      <div style={headerStyle}>
-        <div style={titleStyle}>⚔ World Map</div>
-        <div style={subtitleStyle}>
+      <div style={{ marginBottom: 24 }}>
+        <div
+          style={{
+            fontFamily: "var(--font-display)",
+            fontSize: "var(--fs-2xl)",
+            color: "var(--text-bright)",
+            marginBottom: 8,
+          }}
+        >
+          World Map
+        </div>
+        <div
+          style={{
+            fontFamily: "var(--font-body)",
+            fontSize: "var(--ft-base)",
+            color: "var(--text-dim)",
+          }}
+        >
           {projects.length} projects discovered — last scan{" "}
           {projects[0]?.lastScanned
             ? new Date(projects[0].lastScanned).toLocaleString()
@@ -74,10 +63,10 @@ export default async function Home() {
         </div>
       </div>
 
-      <div style={statsRow}>
+      <div style={{ display: "flex", gap: 16, marginBottom: 28 }}>
         <Panel style={statBox}>
           <div style={statValue}>{active}</div>
-          <div style={statLabel}>Active Quests</div>
+          <div style={statLabel}>Active</div>
         </Panel>
         <Panel style={statBox}>
           <div style={{ ...statValue, color: "var(--health-yellow)" }}>
@@ -99,7 +88,9 @@ export default async function Home() {
           <div
             style={{
               ...statValue,
-              color: activeAgents.length > 0 ? "#22d3ee" : "var(--text-dim)",
+              color: activeAgents.length > 0
+                ? "var(--agent-qwen)"
+                : "var(--text-dim)",
               animation: activeAgents.length > 0
                 ? "pulse 1.5s infinite"
                 : "none",
@@ -111,7 +102,13 @@ export default async function Home() {
         </Panel>
       </div>
 
-      <div style={gridStyle}>
+      <div
+        style={{
+          display: "grid",
+          gridTemplateColumns: "repeat(auto-fill, minmax(340px, 1fr))",
+          gap: 20,
+        }}
+      >
         {projects.map((project, i) => (
           <div
             key={project.id}
