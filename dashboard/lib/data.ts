@@ -29,9 +29,16 @@ export interface Task {
   id: string;
   projectId: string;
   title: string;
-  status: "pending" | "in-progress" | "done";
+  status: "pending" | "in-progress" | "review" | "ask-human" | "done";
   priority: "high" | "medium" | "low";
   source: "manual" | "roadmap" | "scan";
+  retries?: number;
+  retryHistory?: Array<{
+    attempt: number;
+    rejectedAt: string;
+    reason: string;
+    rejectedBy: string;
+  }>;
   createdAt: string;
   updatedAt: string;
 }
@@ -102,4 +109,26 @@ export async function getAllPrds(
     if (prd) prds[id] = prd;
   }
   return prds;
+}
+
+export interface ObsidianRoadmap {
+  projectId: string;
+  sourceFile: string;
+  tasks: Array<{
+    title: string;
+    status: "pending" | "done";
+    source: "obsidian";
+  }>;
+}
+
+export async function getObsidianRoadmap(
+  slug: string,
+): Promise<ObsidianRoadmap | null> {
+  const filePath = join(DATA_DIR, "scans", `${slug}-obsidian.json`);
+  try {
+    const raw = await readFile(filePath, "utf-8");
+    return JSON.parse(raw);
+  } catch {
+    return null;
+  }
 }

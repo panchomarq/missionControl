@@ -245,7 +245,7 @@ if [[ -z "$response" ]] || [[ "$response" == "No response from model" ]]; then
 fi
 
 update_agent_status "completed"
-update_task_status "done"
+update_task_status "review"
 
 echo "Agent completed task $TASK_ID"
 echo "Response saved to $OUTPUT_DIR/$TASK_ID-response.txt"

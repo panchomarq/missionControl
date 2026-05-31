@@ -202,7 +202,7 @@ export async function updateAgentStatus(formData: FormData) {
     const tasks = await readTasks();
     const task = tasks.find((t) => t.id === agent.taskId);
     if (task) {
-      task.status = "done";
+      task.status = "review";
       task.updatedAt = new Date().toISOString();
       await writeTasks(tasks);
     }
@@ -211,6 +211,7 @@ export async function updateAgentStatus(formData: FormData) {
 
 export async function rejectAgent(formData: FormData) {
   const agentId = formData.get("agentId") as string;
+  const reason = formData.get("reason") as string;
   if (!agentId) return;
 
   const agents = await readAgents();
@@ -221,6 +222,14 @@ export async function rejectAgent(formData: FormData) {
   const task = tasks.find((t) => t.id === agent.taskId);
   if (task) {
     task.status = "pending";
+    task.retries = (task.retries ?? 0) + 1;
+    if (!task.retryHistory) task.retryHistory = [];
+    task.retryHistory.push({
+      attempt: task.retries,
+      rejectedAt: new Date().toISOString(),
+      reason: reason || "Review rejected",
+      rejectedBy: (formData.get("rejectedBy") as string) || "opus",
+    });
     task.updatedAt = new Date().toISOString();
     await writeTasks(tasks);
   }
@@ -228,6 +237,19 @@ export async function rejectAgent(formData: FormData) {
   agent.status = "failed";
   agent.completedAt = new Date().toISOString();
   await writeAgents(agents);
+}
+
+export async function approveTask(formData: FormData) {
+  const taskId = formData.get("taskId") as string;
+  if (!taskId) return;
+
+  const tasks = await readTasks();
+  const task = tasks.find((t) => t.id === taskId);
+  if (!task) return;
+
+  task.status = "done";
+  task.updatedAt = new Date().toISOString();
+  await writeTasks(tasks);
 }
 
 export async function applyAgentFiles(formData: FormData) {
@@ -249,5 +271,13 @@ export async function applyAgentFiles(formData: FormData) {
     const dir = join(fullPath, "..");
     mkdirSync(dir, { recursive: true });
     await writeFile(fullPath, file.content + "\n");
+  }
+
+  const tasks = await readTasks();
+  const task = tasks.find((t) => t.id === taskId);
+  if (task) {
+    task.status = "done";
+    task.updatedAt = new Date().toISOString();
+    await writeTasks(tasks);
   }
 }

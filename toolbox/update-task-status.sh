@@ -7,12 +7,12 @@ DATA_DIR="$(dirname "$0")/../data"
 TASKS_FILE="$DATA_DIR/tasks.json"
 
 if [[ -z $TASK_ID || -z $NEW_STATUS ]]; then
-  echo "Usage: update-task-status.sh <task-id> <pending|in-progress|done>"
+  echo "Usage: update-task-status.sh <task-id> <pending|in-progress|review|ask-human|done>"
   exit 1
 fi
 
-if [[ ! $NEW_STATUS =~ ^(pending|in-progress|done)$ ]]; then
-  echo "Error: status must be pending, in-progress, or done"
+if [[ ! $NEW_STATUS =~ ^(pending|in-progress|review|ask-human|done)$ ]]; then
+  echo "Error: status must be pending, in-progress, review, ask-human, or done"
   exit 1
 fi
 
