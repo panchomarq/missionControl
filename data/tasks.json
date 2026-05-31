@@ -163,40 +163,44 @@
     "id": "mc-002",
     "projectId": "missionControl",
     "title": "Sistema de cola visual: comandos pendientes para Qwen",
-    "status": "pending",
+    "status": "review",
     "priority": "medium",
     "createdAt": "2026-05-31T12:00:00Z",
-    "updatedAt": "2026-05-31T13:00:00Z",
-    "source": "roadmap"
+    "updatedAt": "2026-05-31T22:42:23.305970+00:00",
+    "source": "roadmap",
+    "retries": 1,
+    "lastRejectReason": "Rewrites Sidebar.tsx and data.ts completely, destroying existing code"
   },
   {
     "id": "mc-003",
     "projectId": "missionControl",
     "title": "Feedback visual del estado de ejecuci\u00f3n de agente",
-    "status": "pending",
+    "status": "review",
     "priority": "medium",
     "createdAt": "2026-05-31T12:00:00Z",
-    "updatedAt": "2026-05-31T12:00:00Z",
+    "updatedAt": "2026-05-31T22:34:52.882574+00:00",
     "source": "roadmap"
   },
   {
     "id": "mc-004",
     "projectId": "missionControl",
     "title": "Mostrar roadmap de Obsidian en vista de proyecto",
-    "status": "review",
+    "status": "pending",
     "priority": "medium",
     "createdAt": "2026-05-31T12:00:00Z",
-    "updatedAt": "2026-05-31T16:32:20.371372+00:00",
-    "source": "roadmap"
+    "updatedAt": "2026-05-31T22:40:55.841998+00:00",
+    "source": "roadmap",
+    "retries": 1,
+    "lastRejectReason": "Rewrites page.tsx with placeholders, missing imports in RoadmapPanel"
   },
   {
     "id": "mc-005",
     "projectId": "missionControl",
     "title": "Kanban board en p\u00e1gina de Tasks",
-    "status": "pending",
+    "status": "review",
     "priority": "high",
     "source": "roadmap",
     "createdAt": "2026-05-31T15:00:00Z",
-    "updatedAt": "2026-05-31T15:00:00Z"
+    "updatedAt": "2026-05-31T22:35:49.564509+00:00"
   }
 ]

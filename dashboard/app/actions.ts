@@ -211,6 +211,7 @@ export async function updateAgentStatus(formData: FormData) {
 
 export async function rejectAgent(formData: FormData) {
   const agentId = formData.get("agentId") as string;
+  const reason = formData.get("reason") as string;
   if (!agentId) return;
 
   const agents = await readAgents();
@@ -221,6 +222,8 @@ export async function rejectAgent(formData: FormData) {
   const task = tasks.find((t) => t.id === agent.taskId);
   if (task) {
     task.status = "pending";
+    task.retries = (task.retries ?? 0) + 1;
+    task.lastRejectReason = reason || "Review rejected";
     task.updatedAt = new Date().toISOString();
     await writeTasks(tasks);
   }

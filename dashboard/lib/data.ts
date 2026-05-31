@@ -32,6 +32,8 @@ export interface Task {
   status: "pending" | "in-progress" | "review" | "done";
   priority: "high" | "medium" | "low";
   source: "manual" | "roadmap" | "scan";
+  retries?: number;
+  lastRejectReason?: string;
   createdAt: string;
   updatedAt: string;
 }

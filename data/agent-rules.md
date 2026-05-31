@@ -13,6 +13,15 @@ You are modifying a Next.js 16 App Router project with a pixel art Terminal RPG 
 - Use the existing `Panel` component for any bordered section with a title
 - Font is `'Press Start 2P', monospace` — set in globals.css, no need to repeat unless overriding size
 
+## Critical rules for modifying existing files
+
+- NEVER rewrite an entire existing file. Only output the specific additions.
+- If the PRD says "add an import and a JSX line to Sidebar.tsx", output ONLY Sidebar.tsx with the COMPLETE file including your additions — do NOT strip out existing code.
+- If you are creating a NEW file, output the complete file.
+- If you are MODIFYING an existing file, you MUST include ALL existing code plus your changes. The reference files section shows you the current content — preserve it exactly.
+- NEVER write `// Existing functions...` or `{/* Project details */}` — these destroy real code.
+- NEVER redefine types that already exist in `@/lib/data` — import them.
+
 ## Forbidden patterns
 
 - NO `export default`

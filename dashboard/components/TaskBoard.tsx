@@ -263,6 +263,48 @@ export function TaskBoard({
           </span>
         </div>
 
+        {(task.retries ?? 0) > 0 && (
+          <div
+            style={{
+              display: "flex",
+              alignItems: "center",
+              gap: 4,
+              marginBottom: 4,
+            }}
+          >
+            <span
+              style={{
+                fontFamily: "var(--font-display)",
+                fontSize: "var(--fs-micro)",
+                color: "var(--health-red)",
+                borderWidth: 1,
+                borderStyle: "solid",
+                borderColor: "var(--health-red)",
+                padding: "1px 4px",
+                letterSpacing: 1,
+              }}
+            >
+              RETRY {task.retries}
+            </span>
+            {task.lastRejectReason && (
+              <span
+                style={{
+                  fontFamily: "var(--font-body)",
+                  fontSize: "var(--ft-sm)",
+                  color: "var(--text-dim)",
+                  overflow: "hidden",
+                  textOverflow: "ellipsis",
+                  whiteSpace: "nowrap",
+                  flex: 1,
+                }}
+                title={task.lastRejectReason}
+              >
+                {task.lastRejectReason}
+              </span>
+            )}
+          </div>
+        )}
+
         <div
           style={{
             ...cardTitleStyle,
