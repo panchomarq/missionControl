@@ -20,7 +20,7 @@
             "lastCommitMessage": "fix(dashboard): improve pending payments layout on small screens"
         },
         "health": "yellow",
-        "lastScanned": "2026-05-31T12:45:48-03:00"
+        "lastScanned": "2026-05-31T20:08:06-03:00"
     },
     {
         "id": "homeTui",
@@ -42,7 +42,7 @@
             "lastCommitMessage": "Update ROADMAP: mark phases 1-6 complete, add phase 7 plan"
         },
         "health": "yellow",
-        "lastScanned": "2026-05-31T12:45:48-03:00"
+        "lastScanned": "2026-05-31T20:08:06-03:00"
     },
     {
         "id": "missionControl",
@@ -53,9 +53,15 @@
         "stack": [],
         "status": "active",
         "priority": "medium",
-        "git": {},
-        "health": "green",
-        "lastScanned": "2026-05-31T12:45:48-03:00"
+        "git": {
+            "branch": "fix/task-status-display",
+            "hasUnpushed": false,
+            "dirtyFiles": 13,
+            "lastCommit": "2026-05-31T20:07:27-03:00",
+            "lastCommitMessage": "Add Approve button to Ask Human column in Kanban"
+        },
+        "health": "yellow",
+        "lastScanned": "2026-05-31T20:08:06-03:00"
     },
     {
         "id": "personalDashboard",
@@ -71,6 +77,6 @@
         "priority": "medium",
         "git": {},
         "health": "green",
-        "lastScanned": "2026-05-31T12:45:48-03:00"
+        "lastScanned": "2026-05-31T20:08:06-03:00"
     }
 ]

@@ -8,5 +8,115 @@
     "command": "bash toolbox/run-agent.sh mc-004",
     "startedAt": "2026-05-31T16:06:46.685Z",
     "completedAt": "2026-05-31T16:25:57.560Z"
+  },
+  {
+    "id": "agent-1780245108394",
+    "taskId": "mc-004",
+    "projectId": "missionControl",
+    "agentType": "qwen",
+    "status": "completed",
+    "command": "bash toolbox/run-agent.sh mc-004",
+    "startedAt": "2026-05-31T16:31:48.393Z",
+    "completedAt": "2026-05-31T16:32:20.355803+00:00"
+  },
+  {
+    "id": "agent-1780266652440",
+    "taskId": "mc-002",
+    "projectId": "missionControl",
+    "agentType": "qwen",
+    "status": "completed",
+    "command": "bash toolbox/run-agent.sh mc-002",
+    "startedAt": "2026-05-31T22:30:52.439Z",
+    "completedAt": "2026-05-31T22:31:19.408474+00:00"
+  },
+  {
+    "id": "agent-1780266865944",
+    "taskId": "mc-003",
+    "projectId": "missionControl",
+    "agentType": "qwen",
+    "status": "completed",
+    "command": "bash toolbox/run-agent.sh mc-003",
+    "startedAt": "2026-05-31T22:34:25.943Z",
+    "completedAt": "2026-05-31T22:34:52.865311+00:00"
+  },
+  {
+    "id": "agent-1780266867000",
+    "taskId": "mc-005",
+    "projectId": "missionControl",
+    "agentType": "qwen",
+    "status": "completed",
+    "command": "bash toolbox/run-agent.sh mc-005",
+    "startedAt": "2026-05-31T22:34:26.998Z",
+    "completedAt": "2026-05-31T22:35:49.546396+00:00"
+  },
+  {
+    "id": "agent-1780267308352",
+    "taskId": "mc-002",
+    "projectId": "missionControl",
+    "agentType": "qwen",
+    "status": "completed",
+    "command": "bash toolbox/run-agent.sh mc-002",
+    "startedAt": "2026-05-31T22:41:48.351Z",
+    "completedAt": "2026-05-31T22:42:23.287745+00:00"
+  },
+  {
+    "id": "agent-1780267590244",
+    "taskId": "mc-004",
+    "projectId": "missionControl",
+    "agentType": "qwen",
+    "status": "completed",
+    "command": "bash toolbox/run-agent.sh mc-004",
+    "startedAt": "2026-05-31T22:46:30.243Z",
+    "completedAt": "2026-05-31T22:47:04.030519+00:00"
+  },
+  {
+    "id": "agent-1780267601274",
+    "taskId": "mc-003",
+    "projectId": "missionControl",
+    "agentType": "qwen",
+    "status": "completed",
+    "command": "bash toolbox/run-agent.sh mc-003",
+    "startedAt": "2026-05-31T22:46:41.273Z",
+    "completedAt": "2026-05-31T22:47:32.703728+00:00"
+  },
+  {
+    "id": "agent-1780267602140",
+    "taskId": "mc-002",
+    "projectId": "missionControl",
+    "agentType": "qwen",
+    "status": "completed",
+    "command": "bash toolbox/run-agent.sh mc-002",
+    "startedAt": "2026-05-31T22:46:42.139Z",
+    "completedAt": "2026-05-31T22:47:54.927571+00:00"
+  },
+  {
+    "id": "agent-1780267602940",
+    "taskId": "mc-005",
+    "projectId": "missionControl",
+    "agentType": "qwen",
+    "status": "completed",
+    "command": "bash toolbox/run-agent.sh mc-005",
+    "startedAt": "2026-05-31T22:46:42.939Z",
+    "completedAt": "2026-05-31T22:48:40.501810+00:00"
+  },
+  {
+    "id": "agent-1780268326977",
+    "taskId": "mc-005",
+    "projectId": "missionControl",
+    "agentType": "qwen",
+    "status": "completed",
+    "command": "bash toolbox/run-agent.sh mc-005",
+    "startedAt": "2026-05-31T22:58:46.976Z",
+    "completedAt": "2026-05-31T22:59:36.721508+00:00"
+  },
+  {
+    "id": "agent-1780268577538",
+    "taskId": "mc-005",
+    "projectId": "missionControl",
+    "agentType": "qwen",
+    "status": "completed",
+    "command": "bash toolbox/run-agent.sh mc-005",
+    "startedAt": "2026-05-31T23:02:57.537Z",
+    "completedAt": "2026-05-31T23:03:42.130725+00:00"
   }
 ]
