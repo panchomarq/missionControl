@@ -33,7 +33,7 @@ jobs:
           node-version: 22
           cache: pnpm
           cache-dependency-path: dashboard/pnpm-lock.yaml
-      - run: pnpm install --frozen-lockfile
+      - run: pnpm install --frozen-lockfile --ignore-scripts
       - run: pnpm tsc --noEmit
 
   build:
@@ -52,5 +52,5 @@ jobs:
           node-version: 22
           cache: pnpm
           cache-dependency-path: dashboard/pnpm-lock.yaml
-      - run: pnpm install --frozen-lockfile
+      - run: pnpm install --frozen-lockfile --ignore-scripts
       - run: pnpm build
