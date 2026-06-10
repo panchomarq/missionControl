@@ -178,3 +178,13 @@ bash toolbox/scan-git-status.sh # Actualizar git status
 - [x] Rescan desde la sidebar (botón con feedback visual)
 - [ ] Sonidos 8-bit opcionales para eventos (futuro)
 - [ ] Espacio para "Skills/Triggers" futuros en la arquitectura (futuro)
+
+### Etapa 7 — Orquestación autónoma (brainstorm 2026-06-09)
+
+El sistema propone, Francisco aprueba. Requisitos completos en `docs/brainstorms/2026-06-09-autonomous-orchestration-requirements.md`.
+
+- [ ] A. Consolidación: limpiar código muerto de la raíz, commitear Sidebar pendiente, fix scanner, lint en CI, mergear PRs
+- [ ] B. Datos frescos: scan diario por cron, tolerante a vault desmontado
+- [ ] C. Proposer Qwen: propuestas de mantenimiento en ask-human, con deduplicación
+- [ ] D. Runner: despacho de tareas aprobadas por tier, E2E Tier 1 validado
+- [ ] E. Claude estratégico: pasada semanal + botón, PRDs Tier 2, estados waiting-tokens con reintento
