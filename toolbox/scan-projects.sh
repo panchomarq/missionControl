@@ -23,18 +23,23 @@ extract_description() {
 
   [[ -z $claude_md ]] && return
 
-  # Try "## What This Is" section first
-  local desc
-  desc=$(sed -n '/^## What This Is/,/^##/{/^## What This Is/d;/^##/d;p;}' "$claude_md" 2>/dev/null \
-    | head -3 | tr '\n' ' ' | sed 's/^[[:space:]]*//;s/[[:space:]]*$//' || true)
+  # Try known description sections in order of preference
+  local desc=""
+  local section
+  for section in "What This Is" "Problema" "Project Overview" "Overview"; do
+    desc=$(sed -n "/^## ${section}\$/,/^##/{/^## ${section}\$/d;/^##/d;p;}" "$claude_md" 2>/dev/null \
+      | head -3 | tr '\n' ' ' | sed 's/^[[:space:]]*//;s/[[:space:]]*$//' || true)
+    [[ -n $desc ]] && break
+  done
 
-  # Fallback: first non-empty, non-heading line
+  # Fallback: first non-empty, non-heading line that isn't Claude Code boilerplate
   if [[ -z $desc ]]; then
-    desc=$(awk '/^[^#[:space:]]/ && NR > 1 {print; exit}' "$claude_md" 2>/dev/null || true)
+    desc=$(awk '/^[^#[:space:]]/ && NR > 1 && $0 !~ /^This file provides guidance/ {print; exit}' \
+      "$claude_md" 2>/dev/null || true)
   fi
 
   # Escape double quotes for JSON
-  echo "$desc" | sed 's/"/\\"/g'
+  echo "${desc//\"/\\\"}"
 }
 
 extract_stack() {
@@ -108,8 +113,10 @@ scan_git() {
   dirty_files=$(git -C "$project_dir" status --porcelain 2>/dev/null | wc -l)
 
   local has_unpushed=false
-  local unpushed
-  unpushed=$(git -C "$project_dir" log @{u}..HEAD --oneline 2>/dev/null | wc -l || echo "0")
+  local unpushed=0
+  if git -C "$project_dir" rev-parse '@{u}' >/dev/null 2>&1; then
+    unpushed=$(git -C "$project_dir" log '@{u}..HEAD' --oneline 2>/dev/null | wc -l)
+  fi
   if (( unpushed > 0 )); then
     has_unpushed=true
   fi
@@ -119,7 +126,7 @@ scan_git() {
 
   local last_commit_msg
   last_commit_msg=$(git -C "$project_dir" log -1 --format="%s" 2>/dev/null || echo "")
-  last_commit_msg=$(echo "$last_commit_msg" | sed 's/"/\\"/g')
+  last_commit_msg="${last_commit_msg//\"/\\\"}"
 
   cat <<GITJSON
 {
@@ -182,7 +189,7 @@ for dir in "$PROJECTS_DIR"/*/; do
     fi
   fi
 
-  stack=$(extract_stack "$dir")
+  stack_json=$(extract_stack "$dir")
   git_info=$(scan_git "$dir")
 
   dirty_files=$(echo "$git_info" | grep -o '"dirtyFiles": [0-9]*' | grep -o '[0-9]*' || echo "0")
@@ -201,7 +208,7 @@ for dir in "$PROJECTS_DIR"/*/; do
   "slug": "$slug",
   "path": "$(realpath "$dir")",
   "description": "$description",
-  "stack": $stack,
+  "stack": $stack_json,
   "status": "$status",
   "priority": "medium",
   "git": $git_info,

@@ -3,17 +3,17 @@
   "name": "homeTui",
   "slug": "homeTui",
   "path": "/home/francisco/Documents/projects/homeTui",
-  "description": "This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.",
+  "description": "NetWatch — a read-only TUI for monitoring local network device presence and latency. Built with Python 3.13, Textual, Scapy, and icmplib. Styled after btop/bpop.",
   "stack": ["Python","Textual"],
   "status": "active",
   "priority": "medium",
   "git": {
-    "branch": "feature/uplink-diagnostics",
+    "branch": "feat/ci",
     "hasUnpushed": false,
-    "dirtyFiles": 1,
-    "lastCommit": "2026-05-29T22:29:49-03:00",
-    "lastCommitMessage": "Update ROADMAP: mark phases 1-6 complete, add phase 7 plan"
+    "dirtyFiles": 0,
+    "lastCommit": "2026-06-01T16:50:23-03:00",
+    "lastCommitMessage": "Add CI workflow with ruff lint and pytest"
   },
-  "health": "yellow",
-  "lastScanned": "2026-05-31T20:08:06-03:00"
+  "health": "red",
+  "lastScanned": "2026-06-12T00:02:48-03:00"
 }

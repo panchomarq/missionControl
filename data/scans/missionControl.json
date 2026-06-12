@@ -3,17 +3,17 @@
   "name": "missionControl",
   "slug": "missionControl",
   "path": "/home/francisco/Documents/projects/missionControl",
-  "description": "Sistema operativo personal con estética Terminal RPG. Orquestado por Opus 4.6 (estrategia, arquitectura, PRDs) y ejecutado localmente por Qwen 2.5 Coder 14B vía OpenCode (tareas de código, escaneo, actualizaciones de datos).",
+  "description": "No hay visibilidad centralizada del estado de los proyectos personales. La información está dispersa entre repos git, archivos CLAUDE.md, ROADMAPs, y notas de Obsidian. No hay forma rápida de saber: qué proyectos existen, en qué estado están, qué tareas quedan pendientes, y cuál necesita atención.",
   "stack": [],
   "status": "active",
   "priority": "medium",
   "git": {
-    "branch": "fix/task-status-display",
+    "branch": "feat/stage-a-consolidation",
     "hasUnpushed": false,
-    "dirtyFiles": 13,
-    "lastCommit": "2026-05-31T20:07:27-03:00",
-    "lastCommitMessage": "Add Approve button to Ask Human column in Kanban"
+    "dirtyFiles": 5,
+    "lastCommit": "2026-06-11T23:59:18-03:00",
+    "lastCommitMessage": "Add lint to CI: oxlint + shellcheck"
   },
   "health": "yellow",
-  "lastScanned": "2026-05-31T20:08:06-03:00"
+  "lastScanned": "2026-06-12T00:02:48-03:00"
 }

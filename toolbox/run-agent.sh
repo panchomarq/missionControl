@@ -113,6 +113,7 @@ file_tree=$(find "$project_dir" -maxdepth 3 \
 ref_files=""
 if [[ -f "$prd_file" ]]; then
   # Find file paths mentioned in the PRD
+  # shellcheck disable=SC2016  # literal regex for grep, no shell expansion intended
   mentioned_files=$(grep -oE '`[a-zA-Z_/\[\]]+\.(tsx?|css|json|md)`' "$prd_file" 2>/dev/null \
     | tr -d '`' | sort -u || true)
 
@@ -123,7 +124,7 @@ if [[ -f "$prd_file" ]]; then
       "$project_dir/dashboard/$ref"; do
       if [[ -f "$candidate" ]]; then
         content=$(head -80 "$candidate")
-        short_path=$(echo "$candidate" | sed "s|$project_dir/||")
+        short_path="${candidate#"$project_dir"/}"
         ref_files+="
 === $short_path ===
 $content

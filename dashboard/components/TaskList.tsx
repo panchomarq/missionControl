@@ -138,7 +138,7 @@ export function TaskList({
   function getAgentForTask(taskId: string): AgentSession | undefined {
     return agents
       .filter((a) => a.taskId === taskId)
-      .sort((a, b) =>
+      .toSorted((a, b) =>
         new Date(b.startedAt).getTime() - new Date(a.startedAt).getTime(),
       )[0];
   }

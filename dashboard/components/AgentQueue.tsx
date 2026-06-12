@@ -47,7 +47,7 @@ interface AgentQueueProps {
 export function AgentQueue({ agents, taskMap }: AgentQueueProps) {
   const queued = agents
     .filter((a) => a.status === "spawning")
-    .sort(
+    .toSorted(
       (a, b) =>
         new Date(a.startedAt).getTime() - new Date(b.startedAt).getTime(),
     );
