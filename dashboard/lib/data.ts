@@ -25,13 +25,38 @@ export interface Project {
   lastScanned: string;
 }
 
+export type TaskStatus =
+  | "pending"
+  | "approved"
+  | "in-progress"
+  | "review"
+  | "ask-human"
+  | "waiting-tokens"
+  | "failed"
+  | "rejected"
+  | "done";
+
 export interface Task {
   id: string;
   projectId: string;
   title: string;
-  status: "pending" | "in-progress" | "review" | "ask-human" | "done";
+  status: TaskStatus;
   priority: "high" | "medium" | "low";
-  source: "manual" | "roadmap" | "scan";
+  source: "manual" | "roadmap" | "scan" | "proposer";
+  /** 1 = Qwen direct, 2 = Claude PRD. Defaults to 1 for manual tasks. */
+  tier?: 1 | 2;
+  /** Why the proposer suggested this task (proposer-sourced tasks only). */
+  justification?: string;
+  /** Dedup key: projectId:type:key. Suppresses re-proposing the same condition. */
+  fingerprint?: string;
+  /** URL of the PR opened by the runner once execution completes. */
+  prUrl?: string;
+  /** Error message when status is "failed". */
+  error?: string;
+  /** Marks a task as extremely critical — routes Tier 2 to Opus instead of Sonnet. */
+  critical?: boolean;
+  /** Dispatch attempts, incremented on each waiting-tokens retry. */
+  attempts?: number;
   retries?: number;
   retryHistory?: Array<{
     attempt: number;

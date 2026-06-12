@@ -9,25 +9,37 @@ import { AgentReview } from "@/components/AgentReview";
 
 const statusColors: Record<Task["status"], string> = {
   pending: "var(--text-dim)",
+  approved: "var(--agent-claude)",
   "in-progress": "var(--health-yellow)",
   review: "var(--agent-qwen)",
   "ask-human": "var(--accent)",
+  "waiting-tokens": "var(--health-yellow)",
+  failed: "var(--health-red)",
+  rejected: "var(--text-dim)",
   done: "var(--health-green)",
 };
 
 const statusIcons: Record<Task["status"], string> = {
   pending: "○",
+  approved: "◇",
   "in-progress": "◐",
   review: "◉",
   "ask-human": "✋",
+  "waiting-tokens": "⏳",
+  failed: "✕",
+  rejected: "⊘",
   done: "●",
 };
 
 const statusLabels: Record<Task["status"], string> = {
   pending: "PENDING",
+  approved: "APPROVED",
   "in-progress": "WORKING",
   review: "REVIEW",
   "ask-human": "ASK HUMAN",
+  "waiting-tokens": "WAITING TOKENS",
+  failed: "FAILED",
+  rejected: "REJECTED",
   done: "DONE",
 };
 

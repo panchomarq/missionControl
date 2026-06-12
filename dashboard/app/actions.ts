@@ -1,6 +1,6 @@
 "use server";
 
-import { readFile, writeFile } from "node:fs/promises";
+import { readFile, writeFile, rename } from "node:fs/promises";
 import { execFile } from "node:child_process";
 import { join } from "node:path";
 import { promisify } from "node:util";
@@ -11,13 +11,25 @@ const execFileAsync = promisify(execFile);
 
 const TASKS_PATH = join(process.cwd(), "..", "data", "tasks.json");
 
+/**
+ * Write JSON atomically: stage to a temp file, then rename over the target.
+ * rename(2) is atomic on the same filesystem, so a concurrent reader (or a
+ * crash mid-write) never observes a truncated or half-written file. Shared by
+ * every writer of the data lake to soften the dashboard/cron write race.
+ */
+async function writeJsonAtomic(path: string, data: unknown): Promise<void> {
+  const tmp = `${path}.${process.pid}.tmp`;
+  await writeFile(tmp, JSON.stringify(data, null, 2) + "\n");
+  await rename(tmp, path);
+}
+
 async function readTasks(): Promise<Task[]> {
   const raw = await readFile(TASKS_PATH, "utf-8");
   return JSON.parse(raw);
 }
 
 async function writeTasks(tasks: Task[]): Promise<void> {
-  await writeFile(TASKS_PATH, JSON.stringify(tasks, null, 2) + "\n");
+  await writeJsonAtomic(TASKS_PATH, tasks);
 }
 
 export async function addTask(formData: FormData) {
@@ -38,6 +50,7 @@ export async function addTask(formData: FormData) {
     status: "pending",
     priority: priority as Task["priority"],
     source: "manual",
+    tier: 1,
     createdAt: now,
     updatedAt: now,
   });
@@ -75,7 +88,7 @@ async function readAgents(): Promise<AgentSession[]> {
 }
 
 async function writeAgents(agents: AgentSession[]): Promise<void> {
-  await writeFile(AGENTS_PATH, JSON.stringify(agents, null, 2) + "\n");
+  await writeJsonAtomic(AGENTS_PATH, agents);
 }
 
 export async function spawnAgent(formData: FormData) {
@@ -239,6 +252,29 @@ export async function rejectAgent(formData: FormData) {
   await writeAgents(agents);
 }
 
+/**
+ * Approve a proposal in the ask-human column, queuing it for the runner.
+ * ask-human → approved. The optional critical flag routes Tier 2 execution to
+ * Opus instead of the Sonnet default. This is the only path from a proposal to
+ * execution — there is no auto-approval.
+ */
+export async function approveProposal(formData: FormData) {
+  const taskId = formData.get("taskId") as string;
+  if (!taskId) return;
+
+  const tasks = await readTasks();
+  const task = tasks.find((t) => t.id === taskId);
+  if (!task || task.status !== "ask-human") return;
+
+  task.status = "approved";
+  if (formData.get("critical") === "true") task.critical = true;
+  task.updatedAt = new Date().toISOString();
+  await writeTasks(tasks);
+}
+
+/**
+ * Approve completed agent work after review. review → done.
+ */
 export async function approveTask(formData: FormData) {
   const taskId = formData.get("taskId") as string;
   if (!taskId) return;

@@ -5,7 +5,7 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import type { Task, AgentSession } from "@/lib/data";
 import { Icon } from "@/components/Icon";
-import { startTask, approveTask } from "@/app/actions";
+import { startTask, approveProposal } from "@/app/actions";
 import { AgentReview } from "@/components/AgentReview";
 
 const priorityColors: Record<Task["priority"], string> = {
@@ -29,6 +29,20 @@ const COLUMNS: Array<{
     pulse: false,
   },
   {
+    status: "ask-human",
+    label: "ASK HUMAN",
+    bullet: "✋",
+    color: "var(--accent)",
+    pulse: false,
+  },
+  {
+    status: "approved",
+    label: "APPROVED",
+    bullet: "◇",
+    color: "var(--agent-claude)",
+    pulse: false,
+  },
+  {
     status: "in-progress",
     label: "WORKING",
     bullet: "◐",
@@ -43,13 +57,6 @@ const COLUMNS: Array<{
     pulse: false,
   },
   {
-    status: "ask-human",
-    label: "ASK HUMAN",
-    bullet: "✋",
-    color: "var(--accent)",
-    pulse: false,
-  },
-  {
     status: "done",
     label: "DONE",
     bullet: "●",
@@ -58,9 +65,74 @@ const COLUMNS: Array<{
   },
 ];
 
+// Exception states fold into their nearest flow column so no task disappears:
+// dispatched-but-stuck tasks sit under WORKING, terminal rejected under DONE.
+const COLUMN_FOR: Partial<Record<Task["status"], Task["status"]>> = {
+  "waiting-tokens": "in-progress",
+  failed: "in-progress",
+  rejected: "done",
+};
+
+function columnFor(status: Task["status"]): Task["status"] {
+  return COLUMN_FOR[status] ?? status;
+}
+
+const STATUS_TAGS: Partial<
+  Record<Task["status"], { label: string; color: string }>
+> = {
+  approved: { label: "QUEUED", color: "var(--agent-claude)" },
+  "waiting-tokens": { label: "WAITING TOKENS", color: "var(--health-yellow)" },
+  failed: { label: "FAILED", color: "var(--health-red)" },
+  rejected: { label: "REJECTED", color: "var(--text-dim)" },
+};
+
+/** Surface exception-state context (attempts, error) that the column alone can't convey. */
+function renderStatusTag(task: Task) {
+  const tag = STATUS_TAGS[task.status];
+  if (!tag) return null;
+
+  const attemptSuffix =
+    task.status === "waiting-tokens" && task.attempts
+      ? ` ×${task.attempts}`
+      : "";
+
+  return (
+    <div style={{ marginBottom: 6 }}>
+      <span
+        style={{
+          fontFamily: "var(--font-display)",
+          fontSize: "var(--fs-micro)",
+          color: tag.color,
+          borderWidth: 1,
+          borderStyle: "solid",
+          borderColor: tag.color,
+          padding: "1px 4px",
+          letterSpacing: 1,
+        }}
+      >
+        {tag.label}
+        {attemptSuffix}
+      </span>
+      {task.status === "failed" && task.error && (
+        <div
+          style={{
+            fontFamily: "var(--font-body)",
+            fontSize: 12,
+            color: "var(--text-dim)",
+            marginTop: 4,
+            lineHeight: "var(--lh-tight)",
+          }}
+        >
+          {task.error}
+        </div>
+      )}
+    </div>
+  );
+}
+
 const boardStyle: CSSProperties = {
   display: "grid",
-  gridTemplateColumns: "repeat(5, minmax(0, 1fr))",
+  gridTemplateColumns: "repeat(6, minmax(0, 1fr))",
   gap: 16,
   alignItems: "flex-start",
 };
@@ -213,10 +285,11 @@ export function TaskBoard({
       )[0];
   }
 
-  async function handleApprove(task: Task) {
+  async function handleApproveProposal(task: Task, critical: boolean) {
     const formData = new FormData();
     formData.set("taskId", task.id);
-    await approveTask(formData);
+    if (critical) formData.set("critical", "true");
+    await approveProposal(formData);
     router.refresh();
   }
 
@@ -311,6 +384,8 @@ export function TaskBoard({
           </div>
         )}
 
+        {renderStatusTag(task)}
+
         <div
           style={{
             ...cardTitleStyle,
@@ -360,16 +435,29 @@ export function TaskBoard({
             </button>
           )}
           {task.status === "ask-human" && (
-            <button
-              style={{
-                ...btnStyle,
-                borderColor: "var(--health-green)",
-                color: "var(--health-green)",
-              }}
-              onClick={() => handleApprove(task)}
-            >
-              <Icon name="check" size={9} /> APPROVE
-            </button>
+            <>
+              <button
+                style={{
+                  ...btnStyle,
+                  borderColor: "var(--health-green)",
+                  color: "var(--health-green)",
+                }}
+                onClick={() => handleApproveProposal(task, false)}
+              >
+                <Icon name="check" size={9} /> APPROVE
+              </button>
+              <button
+                style={{
+                  ...btnStyle,
+                  borderColor: "var(--accent)",
+                  color: "var(--accent)",
+                }}
+                title="Approve as critical — routes Tier 2 to Opus"
+                onClick={() => handleApproveProposal(task, true)}
+              >
+                <Icon name="alert" size={9} /> CRIT
+              </button>
+            </>
           )}
         </div>
 
@@ -431,7 +519,7 @@ export function TaskBoard({
       <div style={boardStyle}>
         {COLUMNS.map((col) => {
           const colTasks = filtered.filter(
-            (t) => t.status === col.status,
+            (t) => columnFor(t.status) === col.status,
           );
           return (
             <div key={col.status} style={columnStyle}>
