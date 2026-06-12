@@ -2,7 +2,6 @@
 set -euo pipefail
 
 VAULT_DIR="$HOME/Documents/Obsidian Vault"
-PROJECTS_DIR="$HOME/Documents/projects"
 DATA_DIR="$(dirname "$0")/../data"
 PROJECTS_FILE="$DATA_DIR/projects.json"
 

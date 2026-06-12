@@ -39,7 +39,7 @@ extract_description() {
   fi
 
   # Escape double quotes for JSON
-  echo "$desc" | sed 's/"/\\"/g'
+  echo "${desc//\"/\\\"}"
 }
 
 extract_stack() {
@@ -126,7 +126,7 @@ scan_git() {
 
   local last_commit_msg
   last_commit_msg=$(git -C "$project_dir" log -1 --format="%s" 2>/dev/null || echo "")
-  last_commit_msg=$(echo "$last_commit_msg" | sed 's/"/\\"/g')
+  last_commit_msg="${last_commit_msg//\"/\\\"}"
 
   cat <<GITJSON
 {
@@ -189,7 +189,7 @@ for dir in "$PROJECTS_DIR"/*/; do
     fi
   fi
 
-  stack=$(extract_stack "$dir")
+  stack_json=$(extract_stack "$dir")
   git_info=$(scan_git "$dir")
 
   dirty_files=$(echo "$git_info" | grep -o '"dirtyFiles": [0-9]*' | grep -o '[0-9]*' || echo "0")
@@ -208,7 +208,7 @@ for dir in "$PROJECTS_DIR"/*/; do
   "slug": "$slug",
   "path": "$(realpath "$dir")",
   "description": "$description",
-  "stack": $stack,
+  "stack": $stack_json,
   "status": "$status",
   "priority": "medium",
   "git": $git_info,
