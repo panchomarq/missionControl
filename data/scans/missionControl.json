@@ -8,12 +8,12 @@
   "status": "active",
   "priority": "medium",
   "git": {
-    "branch": "feat/stage-a-consolidation",
+    "branch": "feat/stage-b-schema",
     "hasUnpushed": false,
-    "dirtyFiles": 5,
-    "lastCommit": "2026-06-11T23:59:18-03:00",
-    "lastCommitMessage": "Add lint to CI: oxlint + shellcheck"
+    "dirtyFiles": 10,
+    "lastCommit": "2026-06-12T08:35:12-03:00",
+    "lastCommitMessage": "Extend task schema with autonomous-flow states and atomic writes"
   },
   "health": "yellow",
-  "lastScanned": "2026-06-12T00:02:48-03:00"
+  "lastScanned": "2026-06-12T08:37:49-03:00"
 }
