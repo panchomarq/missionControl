@@ -7,6 +7,7 @@ import { rescanProjects } from "@/app/actions";
 import type { AgentSession } from "@/lib/data";
 import { Icon } from "@/components/Icon";
 import { AgentBadge } from "@/components/AgentBadge";
+import { AgentQueue } from "@/components/AgentQueue";
 
 const sidebarStyle: CSSProperties = {
   width: 210,
@@ -189,6 +190,8 @@ export function Sidebar({
             </div>
           </div>
         ))}
+
+        <AgentQueue agents={agents} taskMap={taskMap} />
 
         {recent.map((agent) => (
           <div key={agent.id} style={{ opacity: 0.5 }}>

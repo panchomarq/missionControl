@@ -8,3 +8,6 @@ node_modules/
 
 # Agent output (generated, can be large)
 data/agent-output/
+
+# Design assets (kept local, not source)
+*.zip
