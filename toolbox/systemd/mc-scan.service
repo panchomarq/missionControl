@@ -1,0 +1,8 @@
+[Unit]
+Description=Mission Control daily project scan
+Documentation=https://github.com/panchomarq/missionControl
+
+[Service]
+Type=oneshot
+WorkingDirectory=%h/Documents/projects/missionControl
+ExecStart=/bin/bash toolbox/daily-scan.sh

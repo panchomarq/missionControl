@@ -1,13 +1,17 @@
 #!/bin/bash
 set -euo pipefail
 
-VAULT_DIR="$HOME/Documents/Obsidian Vault"
+# The vault lives on the Barracuda disk, which is not always mounted. Override
+# with MC_VAULT_DIR if it lives elsewhere.
+VAULT_DIR="${MC_VAULT_DIR:-/run/media/francisco/Barracuda/main-vault/main-vault}"
 DATA_DIR="$(dirname "$0")/../data"
 PROJECTS_FILE="$DATA_DIR/projects.json"
 
+# Skip gracefully (exit 0) when the vault disk is unmounted — a missing vault
+# must not abort the cron pipeline, it just means there is nothing to sync.
 if [[ ! -d $VAULT_DIR ]]; then
-  echo "Error: Obsidian Vault not found at $VAULT_DIR"
-  exit 1
+  echo "Obsidian vault not found at $VAULT_DIR — skipping sync (disk may be unmounted)."
+  exit 0
 fi
 
 if [[ ! -f $PROJECTS_FILE ]]; then
@@ -63,7 +67,7 @@ for slug in $project_slugs; do
   fi
 
   task_count=$(echo "$tasks" | wc -l)
-  done_count=$(echo "$tasks" | grep -c "^\- \[x\]" || true)
+  done_count=$(echo "$tasks" | grep -c "^- \[x\]" || true)
   pending_count=$((task_count - done_count))
 
   echo "  Tasks: $pending_count pending, $done_count done"

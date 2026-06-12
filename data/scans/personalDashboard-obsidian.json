@@ -1,0 +1,166 @@
+{
+  "projectId": "personalDashboard",
+  "sourceFile": "/run/media/francisco/Barracuda/main-vault/main-vault/1. Projects/personalDashboard.md",
+  "tasks": [
+    {
+      "title": "Fix SQL injection en `transactionsActions.ts` (allowlist + queries parametrizadas)",
+      "status": "done",
+      "source": "obsidian"
+    },
+    {
+      "title": "Fix SQL injection en `syncActions.ts` (sql tagged template)",
+      "status": "done",
+      "source": "obsidian"
+    },
+    {
+      "title": "Eliminado dead code `lib/data.ts` (0 imports)",
+      "status": "done",
+      "source": "obsidian"
+    },
+    {
+      "title": "Fix path hardcodeado Windows en `dolar_historico.py` (pathlib relativo)",
+      "status": "done",
+      "source": "obsidian"
+    },
+    {
+      "title": "Externalizado diccionario de tasas (884 LOC) a `data/tasas.json`",
+      "status": "done",
+      "source": "obsidian"
+    },
+    {
+      "title": "Extraida clase base `GaliciaBaseParser` para visa/mastercard",
+      "status": "done",
+      "source": "obsidian"
+    },
+    {
+      "title": "Reemplazados `print()` con `logging` estructurado",
+      "status": "done",
+      "source": "obsidian"
+    },
+    {
+      "title": "87 tests pytest (rate_service, galicia_base, visa/mastercard parsers, stubs, expense_service, get_latest_rate)",
+      "status": "done",
+      "source": "obsidian"
+    },
+    {
+      "title": "11 tests vitest (transactionsActions, syncActions)",
+      "status": "done",
+      "source": "obsidian"
+    },
+    {
+      "title": "Pre-commit hooks en ambos repos (ruff+pytest, tsc+vitest)",
+      "status": "done",
+      "source": "obsidian"
+    },
+    {
+      "title": "Script orquestador `check-all.sh`",
+      "status": "done",
+      "source": "obsidian"
+    },
+    {
+      "title": "Ruff lint limpio (20 errores corregidos)",
+      "status": "done",
+      "source": "obsidian"
+    },
+    {
+      "title": "GitHub Actions CI para backend (ruff + pytest)",
+      "status": "done",
+      "source": "obsidian"
+    },
+    {
+      "title": "GitHub Actions CI para frontend (tsc + vitest)",
+      "status": "done",
+      "source": "obsidian"
+    },
+    {
+      "title": "Claude Code settings.json con permisos para herramientas de lint/test",
+      "status": "done",
+      "source": "obsidian"
+    },
+    {
+      "title": "Fix ruta duplicada `/dolar/dolar/historico` -> `/dolar/historico` en backend",
+      "status": "done",
+      "source": "obsidian"
+    },
+    {
+      "title": "Agregado `RateService.get_latest_rate()` \u2014 endpoint ya no accede a `_tasas` directamente",
+      "status": "done",
+      "source": "obsidian"
+    },
+    {
+      "title": "Limpieza imports y comentarios stale en endpoints",
+      "status": "done",
+      "source": "obsidian"
+    },
+    {
+      "title": "Removidas dependencias sin uso: `@nivo/bar`, `@nivo/line`, `@nivo/pie`, `pg`",
+      "status": "done",
+      "source": "obsidian"
+    },
+    {
+      "title": "Removidos 11 tipos muertos de `definitions.ts` y 6 funciones muertas de `utils.ts` (-171 lineas)",
+      "status": "done",
+      "source": "obsidian"
+    },
+    {
+      "title": "Detectar/filtrar snapshots outliers (>50% caida vs vecinos = datos corruptos)",
+      "status": "pending",
+      "source": "obsidian"
+    },
+    {
+      "title": "Aumentar altura del chart (h-64 sm:h-80 minimo)",
+      "status": "pending",
+      "source": "obsidian"
+    },
+    {
+      "title": "Agregar selector de periodo (1S, 1M, 3M, 6M, 1A)",
+      "status": "pending",
+      "source": "obsidian"
+    },
+    {
+      "title": "Header con valor actual + cambio absoluto/% vs inicio del periodo",
+      "status": "pending",
+      "source": "obsidian"
+    },
+    {
+      "title": "Mejor visibilidad del gradient fill",
+      "status": "pending",
+      "source": "obsidian"
+    },
+    {
+      "title": "Donut agrupado por asset_type (CEDEARs, Acciones, FCI, etc.)",
+      "status": "pending",
+      "source": "obsidian"
+    },
+    {
+      "title": "Side-by-side con chart de valor en desktop, stacked en mobile",
+      "status": "pending",
+      "source": "obsidian"
+    },
+    {
+      "title": "Mover SyncCard al final o hacerlo colapsable",
+      "status": "pending",
+      "source": "obsidian"
+    },
+    {
+      "title": "Summary cards: grid 2x2 en vez de 5 columnas",
+      "status": "pending",
+      "source": "obsidian"
+    },
+    {
+      "title": "Valor actual + cambio diario como header de pagina",
+      "status": "pending",
+      "source": "obsidian"
+    },
+    {
+      "title": "Ocultar columnas secundarias en mobile (Value ARS, Avg Cost)",
+      "status": "pending",
+      "source": "obsidian"
+    },
+    {
+      "title": "P&L % siempre visible sin scroll horizontal",
+      "status": "pending",
+      "source": "obsidian"
+    }
+  ]
+}
