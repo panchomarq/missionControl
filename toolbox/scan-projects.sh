@@ -23,14 +23,19 @@ extract_description() {
 
   [[ -z $claude_md ]] && return
 
-  # Try "## What This Is" section first
-  local desc
-  desc=$(sed -n '/^## What This Is/,/^##/{/^## What This Is/d;/^##/d;p;}' "$claude_md" 2>/dev/null \
-    | head -3 | tr '\n' ' ' | sed 's/^[[:space:]]*//;s/[[:space:]]*$//' || true)
+  # Try known description sections in order of preference
+  local desc=""
+  local section
+  for section in "What This Is" "Problema" "Project Overview" "Overview"; do
+    desc=$(sed -n "/^## ${section}\$/,/^##/{/^## ${section}\$/d;/^##/d;p;}" "$claude_md" 2>/dev/null \
+      | head -3 | tr '\n' ' ' | sed 's/^[[:space:]]*//;s/[[:space:]]*$//' || true)
+    [[ -n $desc ]] && break
+  done
 
-  # Fallback: first non-empty, non-heading line
+  # Fallback: first non-empty, non-heading line that isn't Claude Code boilerplate
   if [[ -z $desc ]]; then
-    desc=$(awk '/^[^#[:space:]]/ && NR > 1 {print; exit}' "$claude_md" 2>/dev/null || true)
+    desc=$(awk '/^[^#[:space:]]/ && NR > 1 && $0 !~ /^This file provides guidance/ {print; exit}' \
+      "$claude_md" 2>/dev/null || true)
   fi
 
   # Escape double quotes for JSON
@@ -108,8 +113,10 @@ scan_git() {
   dirty_files=$(git -C "$project_dir" status --porcelain 2>/dev/null | wc -l)
 
   local has_unpushed=false
-  local unpushed
-  unpushed=$(git -C "$project_dir" log @{u}..HEAD --oneline 2>/dev/null | wc -l || echo "0")
+  local unpushed=0
+  if git -C "$project_dir" rev-parse '@{u}' >/dev/null 2>&1; then
+    unpushed=$(git -C "$project_dir" log '@{u}..HEAD' --oneline 2>/dev/null | wc -l)
+  fi
   if (( unpushed > 0 )); then
     has_unpushed=true
   fi

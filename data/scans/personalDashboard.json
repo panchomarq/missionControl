@@ -3,11 +3,11 @@
   "name": "personalDashboard",
   "slug": "personalDashboard",
   "path": "/home/francisco/Documents/projects/personalDashboard",
-  "description": "This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.",
+  "description": "The actual application lives in `nextjs-experiment/`. All commands below must be run from that directory.",
   "stack": ["Next.js","FastAPI"],
   "status": "active",
   "priority": "medium",
   "git": {},
   "health": "green",
-  "lastScanned": "2026-05-31T20:08:06-03:00"
+  "lastScanned": "2026-06-11T23:57:00-03:00"
 }
