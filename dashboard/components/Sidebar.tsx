@@ -102,7 +102,7 @@ export function Sidebar({
   const recent = agents
     .filter((a) => a.status === "completed" || a.status === "failed")
     .slice(-3)
-    .reverse();
+    .toReversed();
 
   return (
     <nav style={sidebarStyle}>

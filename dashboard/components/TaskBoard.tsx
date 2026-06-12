@@ -206,7 +206,7 @@ export function TaskBoard({
   function getAgentForTask(taskId: string): AgentSession | undefined {
     return agents
       .filter((a) => a.taskId === taskId)
-      .sort(
+      .toSorted(
         (a, b) =>
           new Date(b.startedAt).getTime() -
           new Date(a.startedAt).getTime(),
